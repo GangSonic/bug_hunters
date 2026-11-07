@@ -90,6 +90,14 @@ const TRAZOS = {
     </>
   ),
   cerrar: <path d="M6 6l12 12M18 6L6 18" />,
+  portapapeles: (
+    <>
+      <path d="M8 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" />
+    </>
+  ),
+  grafica: <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />,
+  flechaAbajo: <path d="M12 5v14M6 13l6 6 6-6" strokeWidth="2.4" />,
 } as const
 
 export type NombreIcono = keyof typeof TRAZOS

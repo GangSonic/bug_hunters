@@ -1,4 +1,11 @@
-.fila {
+/* Configuración (copiado de la primera versión). */
+.cfgBody {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cfgRow {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -6,30 +13,31 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 12px 14px;
-  margin-bottom: 10px;
 }
-.texto {
+.cfgTxt {
   flex: 1;
   min-width: 0;
 }
-.nombre {
+.cfgK {
   font-family: var(--font-display);
   font-weight: 700;
+  font-size: 0.95rem;
 }
-.descripcion {
-  font-size: 0.8rem;
+.cfgD {
+  font-size: 0.76rem;
   color: var(--ink-2);
 }
-.segmentos {
+.seg {
   display: flex;
   border: 1px solid var(--line-2);
   border-radius: 9px;
   overflow: hidden;
+  flex: 0 0 auto;
 }
-.segmento {
-  font: inherit;
+.seg button {
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   padding: 7px 10px;
   background: var(--surface);
   color: var(--ink);
@@ -37,19 +45,19 @@
   border-right: 1px solid var(--line-2);
   cursor: pointer;
 }
-.segmento:last-child {
+.seg button:last-child {
   border-right: none;
 }
-.segmento[aria-checked='true'] {
+.seg button[aria-pressed='true'] {
   background: var(--purple);
   color: #fff;
 }
-.segmento:focus-visible,
-.interruptor:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+.seg button:focus-visible,
+.switch:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
 }
-.interruptor {
+.switch {
   width: 46px;
   height: 26px;
   border-radius: 999px;
@@ -57,9 +65,10 @@
   border: none;
   position: relative;
   cursor: pointer;
+  flex: 0 0 auto;
   padding: 0;
 }
-.interruptor span {
+.switch span {
   position: absolute;
   top: 3px;
   left: 3px;
@@ -67,17 +76,15 @@
   height: 20px;
   border-radius: 50%;
   background: #fff;
-  transition: left 0.2s;
+  transition: 0.2s;
 }
-.interruptor[aria-checked='true'] {
+.switch[aria-checked='true'] {
   background: var(--cta);
 }
-.interruptor[aria-checked='true'] span {
+.switch[aria-checked='true'] span {
   left: 23px;
 }
-.confirmacion {
-  margin-top: 8px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.reiniciar {
+  flex: 0 0 auto;
+  min-width: 0;
 }

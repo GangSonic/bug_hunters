@@ -1,78 +1,77 @@
-.cuerpo {
-  padding: 28px 20px;
+/* Pantalla 6 — Resultado (copiado de la primera versión). */
+.resBody {
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 10px;
+  gap: 8px;
 }
-.insignia {
-  width: 56px;
-  height: 56px;
+.resBadge {
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: var(--ok-bg);
   color: var(--ok);
   display: grid;
   place-items: center;
 }
-.criatura {
-  width: 100px;
-  image-rendering: pixelated;
-  animation: saltar 0.9s ease-in-out infinite;
+.resBadge svg {
+  width: 30px;
+  height: 30px;
 }
-@keyframes saltar {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.titulo {
+  font-size: 1.4rem;
 }
-.caso {
-  margin: 0;
+.titulo:focus {
+  outline: none;
+}
+.resImg {
+  width: 92px;
+  margin: 2px 0;
+}
+.resCase {
+  font-size: 0.82rem;
   color: var(--ink-2);
-  font-size: 0.85rem;
+  margin: 0;
 }
-.tarjeta {
+.resCard {
   background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 14px 16px;
   text-align: left;
-  max-width: 540px;
+  max-width: 460px;
   width: 100%;
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
-.tarjeta p {
+.resCard p {
   margin: 0;
+  font-size: 0.88rem;
 }
-.tarjeta b {
+.resCard b {
   color: var(--purple-deep);
 }
-.concepto {
+.resConcept {
   background: var(--purple-bg);
   color: var(--purple-deep);
   border-radius: 8px;
   padding: 8px 10px;
   font-weight: 600;
+  margin-top: 4px !important;
 }
-.guardado {
-  font-size: 0.82rem;
-  color: var(--ok);
-  font-weight: 800;
-  margin: 0;
-}
-.acciones {
+.resActions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 8px;
   width: 100%;
-  max-width: 540px;
+  max-width: 460px;
 }
-.acciones > * {
+.resActions > button {
   flex: 1;
-  min-width: 140px;
+  min-width: 130px;
 }

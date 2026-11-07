@@ -19,12 +19,20 @@ describe('máquina de estados de la misión', () => {
     expect(aplicar([{ tipo: 'OBSERVACION_TERMINADA' }]).estado).toBe('E2')
   })
 
-  it('CA05.2 sin hipótesis no se puede reparar ni probar', () => {
+  it('CA05.2 sin hipótesis se puede elegir la corrección, pero no probar', () => {
     const m = aplicar([{ tipo: 'OBSERVACION_TERMINADA' }, { tipo: 'ELEGIR_OPCION', id: 'a' }])
     expect(m.estado).toBe('E2')
-    expect(m.opcionId).toBeNull()
-    expect(puedeReparar(m)).toBe(false)
+    expect(m.opcionId).toBe('a')
+    expect(puedeReparar(m)).toBe(true)
     expect(puedeProbar(m)).toBe(false)
+    const conHipotesis = transicion(m, { tipo: 'ELEGIR_HIPOTESIS', id: 'h' })
+    expect(conHipotesis.estado).toBe('E4')
+    expect(puedeProbar(conHipotesis)).toBe(true)
+  })
+
+  it('en E1 no se puede reparar', () => {
+    expect(puedeReparar(ESTADO_INICIAL)).toBe(false)
+    expect(transicion(ESTADO_INICIAL, { tipo: 'ELEGIR_OPCION', id: 'a' })).toBe(ESTADO_INICIAL)
   })
 
   it('recorre E2 → E3 → E4 → E5a → E6', () => {

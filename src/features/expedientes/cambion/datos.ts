@@ -9,7 +9,7 @@ export const cambion: Expediente = {
   criatura: 'Cambión',
   sprite: 'sprites/cambion.png',
   titulo: 'El inventario que pierde la cuenta',
-  problema: 'El contador muestra un número incorrecto.',
+  problema: 'Pierde la cuenta.',
   objetivo: 'Cuenta las 4 cajas sin que el total se borre.',
   saludo: '¡Hola, Bug Hunter! El inventario no cuadra.',
   intro:
@@ -27,6 +27,7 @@ export const cambion: Expediente = {
     { id: 'falta', texto: 'Falta una caja', esCausa: false },
   ],
   preguntaReparacion: '¿Qué debe pasar con el total en cada caja?',
+  indicacionReparacion: 'Elige cómo actualizar el total.',
   opciones: [
     { id: 'asignar1', texto: 'total ← 1' },
     { id: 'mas2', texto: 'total ← total + 2' },

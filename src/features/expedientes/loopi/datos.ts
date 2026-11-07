@@ -9,7 +9,7 @@ export const loopi: Expediente = {
   criatura: 'Loopi',
   sprite: 'sprites/loopi.png',
   titulo: 'El reparto interminable',
-  problema: 'El reparto no logra detenerse.',
+  problema: 'El reparto interminable.',
   objetivo: 'Entrega los 4 paquetes y haz que el reparto termine.',
   saludo: '¡Hola, Bug Hunter! Hoy el laboratorio tiene un problema.',
   intro:
@@ -32,6 +32,7 @@ export const loopi: Expediente = {
     { id: 'lento', texto: 'Loopi camina demasiado lento', esCausa: false },
   ],
   preguntaReparacion: '¿Con qué condición debe repetirse?',
+  indicacionReparacion: 'Elige la condición del ciclo.',
   opciones: [
     { id: 'verdadero', texto: 'Verdadero' },
     { id: 'pendientes', texto: 'Hay paquetes pendientes' },

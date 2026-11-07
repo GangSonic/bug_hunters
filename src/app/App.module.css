@@ -1,0 +1,33 @@
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-block: 1rem 2rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.marca {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--purple);
+}
+.botonTema {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.botonTema:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}

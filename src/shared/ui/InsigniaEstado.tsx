@@ -1,21 +1,32 @@
 import { Icono, type NombreIcono } from './Icono'
 import estilos from './InsigniaEstado.module.css'
 
-export type EstadoEjecucion = 'enEjecucion' | 'detenido' | 'resuelto' | 'listo'
+/** Estados de la zona F, con los textos e iconos de la primera versión. */
+export type EstadoEjecucion = 'detenido' | 'enEjecucion' | 'resuelto' | 'conError'
 
 const CONFIG: Record<EstadoEjecucion, { texto: string; icono: NombreIcono }> = {
+  detenido: { texto: 'Detenido', icono: 'pausa' },
   enEjecucion: { texto: 'En ejecución', icono: 'jugar' },
-  detenido: { texto: 'Detenido', icono: 'detener' },
   resuelto: { texto: 'Resuelto', icono: 'check' },
-  listo: { texto: 'Listo para probar', icono: 'pausa' },
+  conError: { texto: 'Con error', icono: 'error' },
 }
 
-/** Zona F: icono + texto + color (WCAG 1.4.1). Se anuncia al cambiar. */
-export function InsigniaEstado({ estado }: { estado: EstadoEjecucion }) {
+type Props = {
+  estado: EstadoEjecucion
+  /** Icono alterno para «Con error» (alerta = incompleto, error = sin cambio). */
+  iconoError?: 'alerta' | 'error'
+  className?: string
+}
+
+/** Icono + texto + color (WCAG 1.4.1). Se anuncia al cambiar. */
+export function InsigniaEstado({ estado, iconoError = 'error', className }: Props) {
   const { texto, icono } = CONFIG[estado]
   return (
-    <span className={`${estilos.insignia} ${estilos[estado]}`} role="status">
-      <Icono nombre={icono} tamano={13} />
+    <span
+      className={[estilos.insignia, estilos[estado], className].filter(Boolean).join(' ')}
+      role="status"
+    >
+      <Icono nombre={estado === 'conError' ? iconoError : icono} />
       <span>{texto}</span>
     </span>
   )

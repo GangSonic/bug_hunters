@@ -9,7 +9,7 @@ export const nullito: Expediente = {
   criatura: 'Nullito',
   sprite: 'sprites/nullito.png',
   titulo: 'El pedido desaparecido',
-  problema: 'Un pedido no aparece en los registros.',
+  problema: 'El pedido desaparecido.',
   objetivo: 'Atiende los 4 pedidos sin que la cocina se detenga.',
   saludo: '¡Hola, Bug Hunter! La cafetería del laboratorio se detuvo.',
   intro:
@@ -27,6 +27,7 @@ export const nullito: Expediente = {
     { id: 'larga', texto: 'La lista es muy larga', esCausa: false },
   ],
   preguntaReparacion: '¿Qué debe hacer Nullito con cada pedido?',
+  indicacionReparacion: 'Elige cómo manejar el pedido que falta.',
   opciones: [
     { id: 'sinRevisar', texto: 'preparar pedido' },
     { id: 'siExiste', texto: 'si existe: preparar pedido' },

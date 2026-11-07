@@ -1,17 +1,17 @@
-.cuerpo {
-  padding: 28px 20px;
+/* Pantalla 4 — Presentación (copiado de la primera versión). */
+.presBody {
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 10px;
+  gap: 8px;
 }
-.criatura {
-  width: 130px;
-  image-rendering: pixelated;
-  animation: flotar 3s ease-in-out infinite;
+.presImg {
+  width: 120px;
+  animation: floaty 3s ease-in-out infinite;
 }
-@keyframes flotar {
+@keyframes floaty {
   0%,
   100% {
     transform: translateY(0);
@@ -20,36 +20,30 @@
     transform: translateY(-8px);
   }
 }
-.mundo {
-  margin: 0;
-  font-size: 0.82rem;
+.presTitle {
+  font-size: 1.3rem;
+}
+.presSub {
+  font-size: 0.8rem;
   color: var(--ink-2);
-}
-.saludo {
-  margin: 0;
-  font-weight: 700;
-}
-.texto {
-  max-width: 520px;
   margin: 0;
 }
-.mision {
-  background: var(--purple-bg);
-  color: var(--purple-deep);
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-weight: 700;
+.presText {
+  font-size: 0.9rem;
+  color: var(--ink);
+  max-width: 460px;
+  margin: 6px 0 4px;
 }
-.pasos {
+.presSteps {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
-  list-style: none;
+  margin: 0 0 8px;
   padding: 0;
-  margin: 4px 0 8px;
+  list-style: none;
 }
-.paso {
+.presChip {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -57,9 +51,16 @@
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 6px 12px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  color: var(--ink);
 }
-.paso svg {
+.presChip svg {
+  width: 14px;
+  height: 14px;
   color: var(--purple);
+}
+.comenzar {
+  max-width: 260px;
+  margin: 4px auto 0;
 }

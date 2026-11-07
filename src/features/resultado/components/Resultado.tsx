@@ -1,5 +1,5 @@
+import { useEffect, useRef } from 'react'
 import { obtenerExpediente, type CasoId } from '@/features/expedientes'
-import { useCantidadResueltos } from '@/features/progreso'
 import { Boton, Icono, Marco, rutaPublica } from '@/shared'
 import estilos from './Resultado.module.css'
 
@@ -10,25 +10,26 @@ type Props = {
   onInicio: () => void
 }
 
-/** P6 Resultado y explicación (E7, E9). El nombre formal aparece aquí por primera vez. */
+/** P6 Resultado y explicación (E7, E9), con el diseño de la primera versión. */
 export function Resultado({ casoId, onVerFicha, onOtraMision, onInicio }: Props) {
   const caso = obtenerExpediente(casoId)
-  const resueltos = useCantidadResueltos()
+  const tituloRef = useRef<HTMLHeadingElement>(null)
+  useEffect(() => tituloRef.current?.focus(), [])
+
   return (
-    <Marco titulo="¡Caso resuelto!">
-      <div className={estilos.cuerpo}>
-        <div className={estilos.insignia} aria-hidden="true">
-          <Icono nombre="check" tamano={30} />
+    <Marco>
+      <div className={estilos.resBody}>
+        <div className={estilos.resBadge} aria-hidden="true">
+          <Icono nombre="check" />
         </div>
-        <img
-          className={estilos.criatura}
-          src={rutaPublica(caso.sprite)}
-          alt={`${caso.criatura} feliz`}
-        />
-        <p className={estilos.caso}>
-          {caso.criatura}: {caso.titulo}
+        <h1 ref={tituloRef} tabIndex={-1} className={estilos.titulo}>
+          ¡Caso resuelto!
+        </h1>
+        <p className={estilos.resCase}>
+          {caso.criatura} — {caso.titulo}
         </p>
-        <div className={estilos.tarjeta}>
+        <img className={estilos.resImg} src={rutaPublica(caso.sprite)} alt={caso.criatura} />
+        <div className={estilos.resCard}>
           <p>
             <b>¿Qué pasaba?</b> {caso.ficha.senal}
           </p>
@@ -38,21 +39,17 @@ export function Resultado({ casoId, onVerFicha, onOtraMision, onInicio }: Props)
           <p>
             <b>¿Cómo se arregló?</b> {caso.ficha.solucion}
           </p>
-          <p className={estilos.concepto}>
-            Descubriste: {caso.concepto} <span lang="en">({caso.terminoIngles})</span>
+          <p className={estilos.resConcept}>
+            <b>Concepto aprendido:</b> {caso.concepto} <span lang="en">({caso.terminoIngles})</span>
+            .
           </p>
         </div>
-        <p className={estilos.guardado} role="status">
-          Progreso guardado: {resueltos} de 4 casos resueltos
-        </p>
-        <div className={estilos.acciones}>
-          <Boton variante="primario" icono="libro" onClick={onVerFicha}>
-            Ver ficha
+        <div className={estilos.resActions}>
+          <Boton variante="primario" onClick={onVerFicha}>
+            Ver ficha en BugDex
           </Boton>
           <Boton onClick={onOtraMision}>Otra misión</Boton>
-          <Boton icono="inicio" onClick={onInicio}>
-            Inicio
-          </Boton>
+          <Boton onClick={onInicio}>Inicio</Boton>
         </div>
       </div>
     </Marco>

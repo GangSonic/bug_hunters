@@ -1,34 +1,37 @@
-.boton {
+/* .btn y .pill de la primera versión. */
+.btn {
+  line-height: 1.2;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   border-radius: 10px;
   padding: 10px 15px;
   cursor: pointer;
   border: 1.5px solid var(--line-2);
   background: var(--surface);
   color: var(--ink);
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  transition:
-    border-color 0.15s,
-    background 0.15s,
-    transform 0.1s;
+  transition: 0.15s;
 }
-.boton:hover:not(:disabled) {
+.btn svg {
+  width: 15px;
+  height: 15px;
+}
+.btn:hover {
   border-color: var(--purple);
 }
-.boton:active:not(:disabled) {
+.btn:active {
   transform: scale(0.98);
 }
-.boton:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+.btn:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
 }
-.boton:disabled {
-  opacity: 0.55;
+.btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
 }
 .primario {
@@ -36,24 +39,31 @@
   border-color: var(--cta);
   color: #fff;
 }
-.primario:hover:not(:disabled) {
+.primario:hover {
   background: var(--cta-deep);
   border-color: var(--cta-deep);
 }
 .pill {
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
   border-radius: 9px;
   padding: 7px 11px;
-  background: var(--surface-2);
-  border-width: 1px;
-  border-color: var(--line);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
 }
-.grande {
-  font-size: 1.08rem;
-  padding: 12px 18px;
+.pill svg {
+  width: 15px;
+  height: 15px;
 }
-.ancho {
-  width: 100%;
+.pill:hover {
+  border-color: var(--line-2);
+}
+.pill:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
 }

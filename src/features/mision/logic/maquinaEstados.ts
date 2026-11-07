@@ -52,9 +52,9 @@ const DESENLACE_A_ESTADO: Record<Desenlace, EstadoId> = {
   sinCambio: 'E5c',
 }
 
-const INVESTIGANDO: EstadoId[] = ['E2', 'E3', 'E4', 'E5b', 'E5c']
-const REPARABLE: EstadoId[] = ['E3', 'E4', 'E5b', 'E5c']
-const PROBABLE: EstadoId[] = ['E4', 'E5b', 'E5c']
+// Como en la primera versión, tras resolver se puede seguir experimentando.
+const INVESTIGANDO: EstadoId[] = ['E2', 'E3', 'E4', 'E5a', 'E5b', 'E5c']
+const PROBABLE: EstadoId[] = ['E4', 'E5a', 'E5b', 'E5c']
 const REINICIABLE: EstadoId[] = ['E1', 'E2', 'E3', 'E4', 'E5a', 'E5b', 'E5c']
 
 /** Transición pura: un evento no permitido en el estado actual devuelve el mismo estado. */
@@ -69,12 +69,19 @@ export function transicion(actual: EstadoMision, evento: Evento): EstadoMision {
       return {
         ...actual,
         hipotesisId: evento.id,
-        estado: estado === 'E2' ? 'E3' : estado,
+        estado: estado === 'E2' ? (actual.opcionId ? 'E4' : 'E3') : estado,
       }
 
     case 'ELEGIR_OPCION':
-      if (!REPARABLE.includes(estado) || actual.hipotesisId === null) return actual
-      return { ...actual, opcionId: evento.id, estado: 'E4', edicionSinProbar: true }
+      // Como en la primera versión, se puede elegir la corrección antes que la hipótesis;
+      // Probar sigue exigiendo ambas (CA05.2).
+      if (!INVESTIGANDO.includes(estado)) return actual
+      return {
+        ...actual,
+        opcionId: evento.id,
+        estado: actual.hipotesisId === null ? estado : 'E4',
+        edicionSinProbar: true,
+      }
 
     case 'PROBADO': {
       if (!PROBABLE.includes(estado) || !actual.opcionId || !actual.hipotesisId) return actual
@@ -113,9 +120,8 @@ export function transicion(actual: EstadoMision, evento: Evento): EstadoMision {
 export const puedeProbar = (m: EstadoMision) =>
   PROBABLE.includes(m.estado) && m.opcionId !== null && m.hipotesisId !== null
 
-/** ¿Están habilitadas la barra de reparación (zona D)? */
-export const puedeReparar = (m: EstadoMision) =>
-  REPARABLE.includes(m.estado) && m.hipotesisId !== null
+/** ¿Está habilitada la barra de reparación (zona D)? */
+export const puedeReparar = (m: EstadoMision) => INVESTIGANDO.includes(m.estado)
 
 export const puedePedirPista = (m: EstadoMision) =>
   INVESTIGANDO.includes(m.estado) && m.pistasVistas < MAX_PISTAS

@@ -45,7 +45,7 @@ src/
 ├─ shared/         # componentes base, tokens de diseño, hooks y utilidades
 └─ features/
    ├─ inicio/          # P1 y despedida
-   ├─ seleccion/       # P2 y P3
+   ├─ seleccion/       # P3: mundos y casos en una sola pantalla
    ├─ mision/          # P4, P5 y la máquina de estados E1–E6
    ├─ expedientes/     # contrato, registro y los 4 casos
    ├─ resultado/       # P6

@@ -1,5 +1,6 @@
 import type { Dispatch } from 'react'
 import type { Expediente } from '@/features/expedientes'
+import { Icono } from '@/shared'
 import type { EstadoMision, Evento } from '../logic/maquinaEstados'
 import estilos from './PantallaMision.module.css'
 
@@ -10,29 +11,28 @@ type Props = {
   habilitada: boolean
 }
 
-/** Zona D: la barra de reparación. Solo una opción a la vez (E4). */
+/** Zona D: la barra de reparación (.repair). Solo una opción a la vez. */
 export function BarraReparacion({ caso, mision, despachar, habilitada }: Props) {
-  const motivo =
-    mision.estado === 'E1'
-      ? 'Primero observa qué hace la criatura.'
-      : mision.hipotesisId === null
-        ? 'Primero registra una hipótesis.'
-        : null
-
+  const elegida = caso.opciones.find((o) => o.id === mision.opcionId)
   return (
-    <section className={estilos.panel} aria-labelledby="titulo-reparar">
-      <h2 id="titulo-reparar" className={estilos.panelTitulo}>
-        2. Repara: {caso.preguntaReparacion}
+    <section className={estilos.repair} aria-labelledby="titulo-reparar">
+      <h2 id="titulo-reparar">
+        <Icono nombre="llave" /> 2. {caso.preguntaReparacion}
       </h2>
-      {motivo && <p className={estilos.ayudaBloqueo}>{motivo}</p>}
-      <div className={estilos.opciones} role="radiogroup" aria-labelledby="titulo-reparar">
+      <p className={estilos.rh}>{caso.indicacionReparacion}</p>
+      <div className={estilos.rline}>
+        <span className={estilos.lbl}>Elegido:</span>
+        <span className={elegida ? estilos.elegidoActivo : estilos.elegido}>
+          ( {elegida?.texto ?? '…'} )
+        </span>
+      </div>
+      <div className={estilos.opts} role="group" aria-labelledby="titulo-reparar">
         {caso.opciones.map((opcion) => (
           <button
             key={opcion.id}
             type="button"
-            role="radio"
-            aria-checked={mision.opcionId === opcion.id}
-            className={estilos.opcion}
+            aria-pressed={mision.opcionId === opcion.id}
+            className={estilos.opt}
             disabled={!habilitada}
             onClick={() => despachar({ tipo: 'ELEGIR_OPCION', id: opcion.id })}
           >

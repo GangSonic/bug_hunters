@@ -2,14 +2,15 @@ import { act } from '@testing-library/react'
 import { ENLACES, enlacePermitido } from './pantallas'
 import { useNavegacion } from './navegacionStore'
 
-/** Tabla 14 del Capítulo IV, copiada a mano: si alguien cambia ENLACES, esta prueba avisa. */
+/**
+ * Tabla 14 del Capítulo IV ajustada por D-01 (P2 y P3 en una sola pantalla), copiada a mano:
+ * si alguien cambia ENLACES, esta prueba avisa.
+ */
 const TABLA_14 = [
-  ['P1', 'P2'],
-  ['P2', 'P3'],
-  ['P2', 'P1'],
+  ['P1', 'P3'],
   ['P3', 'P4'],
   ['P3', 'P7'],
-  ['P3', 'P2'],
+  ['P3', 'P1'],
   ['P4', 'P5'],
   ['P4', 'P3'],
   ['P5', 'P6'],
@@ -22,7 +23,7 @@ const TABLA_14 = [
 ] as const
 
 describe('navegación (HU01)', () => {
-  it('ENLACES coincide exactamente con la Tabla 14', () => {
+  it('ENLACES coincide exactamente con la tabla de enlaces', () => {
     const enCodigo = Object.entries(ENLACES).flatMap(([o, ds]) => ds.map((d) => `${o}>${d}`))
     expect(enCodigo.sort()).toEqual(TABLA_14.map(([o, d]) => `${o}>${d}`).sort())
   })
@@ -50,7 +51,7 @@ describe('navegación (HU01)', () => {
     expect(useNavegacion.getState()).toMatchObject({ pantalla: 'P4', casoId: 'nullito' })
   })
 
-  it('CA01.2 una capa se abre encima sin cambiar la pantalla', () => {
+  it('CA01.2 una capa se abre sin cambiar la pantalla de fondo', () => {
     act(() => {
       useNavegacion.setState({ pantalla: 'P1', capa: null })
       useNavegacion.getState().abrirCapa('O3')

@@ -1,37 +1,27 @@
-*,
-*::before,
-*::after {
+/* Base global: igual a la primera versión. */
+* {
   box-sizing: border-box;
 }
-
-html,
-body {
-  margin: 0;
-}
-
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
 }
-
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  margin: 0;
   line-height: 1.15;
   text-wrap: balance;
 }
-
-.app {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 24px 20px 40px;
+[hidden] {
+  display: none !important;
 }
-
-:focus-visible {
-  outline: 3px solid var(--purple);
-  outline-offset: 2px;
+img {
+  image-rendering: auto;
+}
+button {
+  font-family: inherit;
 }

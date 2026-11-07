@@ -1,17 +1,14 @@
-.escena {
+/* Escenario de la primera versión: destino, criatura, paquetes y banda. */
+.area {
+  height: 180px;
   position: relative;
-  height: 210px;
-  background: var(--stage);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
 }
 .destino {
   position: absolute;
-  top: 16px;
-  right: 12px;
-  bottom: 48px;
-  width: 44px;
+  top: 18px;
+  right: 0;
+  width: 40px;
+  bottom: 46px;
   background: var(--stage-2);
   border: 2px solid var(--stage-line);
   border-radius: 8px;
@@ -20,50 +17,39 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: var(--cta);
+  z-index: 1;
 }
-.etiquetaDestino {
+.dl {
   writing-mode: vertical-rl;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
+  font-size: 0.56rem;
   color: var(--ink-2);
+  letter-spacing: 0.1em;
+}
+.destino svg {
+  width: 16px;
+  height: 16px;
+  color: var(--cta);
 }
 .criatura {
   position: absolute;
+  left: 3%;
   bottom: 44px;
   width: 112px;
   z-index: 2;
-  transition: left 0.45s ease-in-out;
+  transition: left 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  will-change: left;
+}
+.enCamino {
+  left: 46%;
 }
 .criatura img {
   display: block;
   width: 100%;
-  image-rendering: pixelated;
 }
-.contadorPecho {
-  position: absolute;
-  left: 58%;
-  top: 52%;
-  background: #0d2a22;
-  border: 2px solid #0f6e56;
-  border-radius: 6px;
-  padding: 1px 6px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.72rem;
-  color: #7cf0c0;
-  font-variant-numeric: tabular-nums;
-}
-.caminando {
+.walking {
   animation: bob 0.5s ease-in-out infinite;
-}
-.mareado {
-  animation: sacudir 0.24s ease-in-out infinite;
-}
-.feliz {
-  animation: saltar 0.55s ease-in-out infinite;
 }
 @keyframes bob {
   0%,
@@ -74,7 +60,10 @@
     transform: translateY(-6px) rotate(1.5deg);
   }
 }
-@keyframes sacudir {
+.dizzy {
+  animation: shake 0.24s ease-in-out infinite;
+}
+@keyframes shake {
   0%,
   100% {
     transform: translateX(-2px) rotate(-2.5deg);
@@ -83,7 +72,10 @@
     transform: translateX(2px) rotate(2.5deg);
   }
 }
-@keyframes saltar {
+.happy {
+  animation: hop 0.55s ease-in-out infinite;
+}
+@keyframes hop {
   0%,
   100% {
     transform: translateY(0);
@@ -92,23 +84,45 @@
     transform: translateY(-12px);
   }
 }
-.elementos {
+@media (prefers-reduced-motion: reduce) {
+  .criatura {
+    animation: none !important;
+  }
+}
+.contador {
   position: absolute;
-  left: 12px;
-  right: 64px;
+  left: 60%;
+  top: 54%;
+  background: #0d2a22;
+  border: 2px solid #0f6e56;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: #7cf0c0;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  z-index: 3;
+}
+.pkgs {
+  position: absolute;
+  left: 8px;
+  right: 56px;
   bottom: 48px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
+  flex-wrap: wrap;
   z-index: 1;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.elemento {
-  min-width: 34px;
-  height: 34px;
-  padding: 0 6px;
+.pkg {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 5px;
   border-radius: 6px;
   border: 2px solid var(--stage-line);
   background: var(--surface);
@@ -116,14 +130,16 @@
   place-items: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--ink-2);
+  transition: 0.25s;
 }
-.ok {
+.done {
   background: var(--cafe);
   border-color: #8a5e2e;
   color: #fff;
 }
+/* Efectos que la primera versión no tenía (Confusín y Nullito los necesitan). */
 .mal,
 .fallo {
   background: var(--err-bg);
@@ -139,7 +155,7 @@
   border-style: dashed;
   opacity: 0.6;
 }
-.banda {
+.belt {
   position: absolute;
   left: 0;
   right: 0;
@@ -148,14 +164,6 @@
   background: repeating-linear-gradient(90deg, var(--stage-line) 0 12px, transparent 12px 24px);
   border-top: 3px solid var(--stage-line);
   border-bottom: 3px solid var(--stage-line);
-}
-.vueltas {
-  position: absolute;
-  left: 12px;
-  top: 10px;
-  font-size: 0.74rem;
-  font-weight: 800;
-  color: var(--ink-2);
 }
 .oculto {
   position: absolute;

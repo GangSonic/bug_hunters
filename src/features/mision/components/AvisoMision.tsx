@@ -1,21 +1,18 @@
-import type { Dispatch } from 'react'
 import type { Expediente } from '@/features/expedientes'
-import { Boton, Icono } from '@/shared'
-import type { EstadoMision, Evento } from '../logic/maquinaEstados'
+import { Boton, Icono, type NombreIcono } from '@/shared'
+import type { EstadoMision } from '../logic/maquinaEstados'
 import estilos from './PantallaMision.module.css'
 
 type Props = {
   caso: Expediente
   mision: EstadoMision
-  despachar: Dispatch<Evento>
   reproduciendo: boolean
   tutorialVisto: boolean
   onTerminarObservacion: () => void
   onOmitirObservacion: () => void
-  onContinuar: () => void
 }
 
-/** Avisos de la misión: guía de E1 y resultado de cada prueba (E5a, E5b, E5c). Se anuncian. */
+/** Barra de resultado (.resultbar): guía de E1 y desenlace de cada prueba. Se anuncia. */
 export function AvisoMision(props: Props) {
   return (
     <div aria-live="polite" aria-atomic="true">
@@ -27,26 +24,24 @@ export function AvisoMision(props: Props) {
 function Contenido({
   caso,
   mision,
-  despachar,
   reproduciendo,
   tutorialVisto,
   onTerminarObservacion,
   onOmitirObservacion,
-  onContinuar,
 }: Props) {
   if (mision.estado === 'E1') {
     return (
-      <div className={estilos.aviso}>
-        <Icono nombre="ojo" tamano={20} />
-        <div>
-          <p className={estilos.avisoTitulo}>Paso 1 de 4: observa a {caso.criatura}</p>
+      <div className={`${estilos.resultbar} ${estilos.info}`}>
+        <Icono nombre="ojo" />
+        <div style={{ minWidth: 0 }}>
+          <p className={estilos.rt}>Paso 1 de 4: observa a {caso.criatura}</p>
           {!tutorialVisto && (
-            <p>
+            <p className={estilos.rb}>
               Compara lo que hace con lo que pide la misión. Después investiga, elige una causa y
-              repara la regla.
+              prueba una corrección.
             </p>
           )}
-          <div className={estilos.avisoAcciones}>
+          <div className={estilos.accionAviso}>
             {reproduciendo ? (
               <Boton onClick={onOmitirObservacion}>Omitir</Boton>
             ) : (
@@ -62,12 +57,17 @@ function Contenido({
 
   if (reproduciendo) return null
   const ultimo = mision.intentos.at(-1)
-  if (!ultimo || !['E5a', 'E5b', 'E5c'].includes(mision.estado)) return null
+  if (!ultimo || !['E5a', 'E5b', 'E5c', 'E6'].includes(mision.estado)) return null
 
   const mensaje = caso.mensajes[ultimo.opcionId]
   const hipotesis = caso.hipotesis.find((h) => h.id === ultimo.hipotesisId)
-  const claseDesenlace = estilos[ultimo.desenlace]
-  const icono =
+  const variante =
+    ultimo.desenlace === 'correcto'
+      ? estilos.ok
+      : ultimo.desenlace === 'incompleto'
+        ? estilos.warn
+        : estilos.err
+  const icono: NombreIcono =
     ultimo.desenlace === 'correcto'
       ? 'check'
       : ultimo.desenlace === 'incompleto'
@@ -75,28 +75,22 @@ function Contenido({
         : 'error'
 
   return (
-    <div className={`${estilos.aviso} ${claseDesenlace}`}>
-      <Icono nombre={icono} tamano={20} />
-      <div>
-        <p className={estilos.avisoTitulo}>{mensaje?.titulo}</p>
-        <p>{mensaje?.cuerpo}</p>
+    <div className={`${estilos.resultbar} ${variante}`}>
+      <Icono nombre={icono} />
+      <div style={{ minWidth: 0 }}>
+        <p className={estilos.rt}>{mensaje?.titulo}</p>
+        <p className={estilos.rb}>{mensaje?.cuerpo}</p>
         {hipotesis && !hipotesis.esCausa && (
-          <p className={estilos.nota}>
-            Tu hipótesis («{hipotesis.texto}») no coincide con lo que muestra la evidencia. Revisa
-            las instrucciones antes de probar otra vez.
+          <p className={estilos.rb}>
+            Tu hipótesis («{hipotesis.texto}») no coincide con la evidencia. Revisa las
+            instrucciones.
           </p>
         )}
-        <div className={estilos.avisoAcciones}>
-          {mision.estado === 'E5a' ? (
-            <Boton variante="primario" onClick={onContinuar}>
-              Continuar
-            </Boton>
-          ) : (
-            <Boton icono="lupa" onClick={() => despachar({ tipo: 'REVISAR' })}>
-              Revisar la evidencia
-            </Boton>
-          )}
-        </div>
+        {ultimo.desenlace === 'correcto' && (
+          <div className={estilos.concepto}>
+            <strong>Concepto:</strong> {caso.concepto}.
+          </div>
+        )}
       </div>
     </div>
   )

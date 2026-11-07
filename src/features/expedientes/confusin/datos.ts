@@ -9,7 +9,7 @@ export const confusin: Expediente = {
   criatura: 'Confusín',
   sprite: 'sprites/confusin.png',
   titulo: 'Pedidos equivocados',
-  problema: 'Los paquetes llegan al lugar incorrecto.',
+  problema: 'Pedidos equivocados.',
   objetivo: 'Haz que cada pedido llegue a su destino: Norte o Sur.',
   saludo: '¡Hola, Bug Hunter! Los pedidos se están perdiendo.',
   intro:
@@ -33,6 +33,7 @@ export const confusin: Expediente = {
     { id: 'muchos', texto: 'Hay demasiados pedidos', esCausa: false },
   ],
   preguntaReparacion: '¿Qué condición manda un pedido al Norte?',
+  indicacionReparacion: 'Elige la comparación correcta.',
   opciones: [
     { id: 'sur', texto: 'destino = "Sur"' },
     { id: 'verdadero', texto: 'Verdadero' },

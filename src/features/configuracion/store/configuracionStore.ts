@@ -15,7 +15,7 @@ interface EstadoConfiguracion {
 export const useConfiguracion = create<EstadoConfiguracion>()(
   persist(
     (set) => ({
-      tema: 'claro',
+      tema: 'auto',
       animaciones: true,
       cambiarTema: (tema) => set({ tema }),
       cambiarAnimaciones: (animaciones) => set({ animaciones }),

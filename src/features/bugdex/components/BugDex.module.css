@@ -1,94 +1,88 @@
-.cuerpo {
-  padding: 16px;
-}
-.resumen {
-  margin: 0 0 12px;
-  font-family: var(--font-display);
-  font-weight: 700;
-}
-.fichas {
+/* Pantalla 7 — BugDex (copiado de la primera versión). */
+.dexBody {
+  padding: 16px 14px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   list-style: none;
-  padding: 0;
   margin: 0;
 }
-@media (max-width: 640px) {
-  .fichas {
+@media (max-width: 520px) {
+  .dexBody {
     grid-template-columns: 1fr;
   }
 }
-.ficha {
+.dexCard {
   background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  border-radius: 14px;
   padding: 14px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
-.resaltada {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 2px var(--purple-bg);
+.locked {
+  opacity: 0.8;
 }
-.cabecera {
+.dexTop {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.cabecera img {
-  width: 52px;
-  height: 52px;
+.dexTop img {
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  image-rendering: pixelated;
 }
-.bloqueada img {
-  filter: grayscale(1) brightness(0.6);
-  opacity: 0.45;
+.locked .dexTop img {
+  filter: grayscale(1) brightness(0.7);
+  opacity: 0.5;
 }
-.nombre {
+.dexName {
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
 }
-.mundo {
-  margin: 0;
-  font-size: 0.75rem;
+.dexWorld {
+  font-size: 0.7rem;
   color: var(--ink-2);
+  margin: 0;
 }
-.numero {
+.dexNum {
   margin-left: auto;
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--ink-2);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
-.filas {
-  margin: 0;
-  display: grid;
+.dexRows {
+  display: flex;
+  flex-direction: column;
   gap: 5px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin: 0;
 }
-.filas dt {
+.dexRows dt {
   display: inline;
-  font-weight: 700;
   color: var(--purple-deep);
+  font-weight: 700;
 }
-.filas dd {
+.dexRows dd {
   display: inline;
   margin: 0;
 }
-.concepto {
+.dexConcept {
+  margin: 2px 0 0;
   background: var(--purple-bg);
   color: var(--purple-deep);
   border-radius: 7px;
   padding: 6px 8px;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  margin: 0;
 }
-.pendiente {
-  font-size: 0.82rem;
+.dexPending {
+  font-size: 0.78rem;
   color: var(--ink-2);
   font-style: italic;
   margin: 0;

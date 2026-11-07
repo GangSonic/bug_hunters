@@ -106,14 +106,16 @@ export function useMision(expediente: Expediente) {
     ? reproduccion.resultado.pasos.slice(0, reproduccion.mostrados)
     : []
 
+  // Zona F con los estados de la primera versión: Detenido, En ejecución, Resuelto, Con error.
   const estadoEjecucion: EstadoEjecucion = (() => {
     if (reproduciendo) return 'enEjecucion'
     if (mision.estado === 'E5a' || mision.estado === 'E6') return 'resuelto'
-    if (!reproduccion) return 'listo'
-    const { resultado } = reproduccion
-    // Un ciclo sin fin sigue «en ejecución» aunque la simulación se haya cortado.
-    return !resultado.terminado && !resultado.fallo ? 'enEjecucion' : 'detenido'
+    if (reproduccion?.origen === 'prueba' && reproduccion.desenlace !== 'correcto')
+      return 'conError'
+    return 'detenido'
   })()
+  const iconoError: 'alerta' | 'error' =
+    reproduccion?.desenlace === 'incompleto' ? 'alerta' : 'error'
 
   return {
     mision,
@@ -122,10 +124,12 @@ export function useMision(expediente: Expediente) {
     reproduciendo,
     pasosMostrados,
     estadoEjecucion,
+    iconoError,
     probar,
     reiniciar,
     omitirObservacion,
-    /** Desenlace que la escena debe reflejar (null mientras corre). */
-    desenlaceVisible: reproduciendo ? null : (reproduccion?.desenlace ?? null),
+    /** Desenlace que la escena refleja: null mientras corre y durante la observación (camina). */
+    desenlaceVisible:
+      reproduciendo || reproduccion?.origen !== 'prueba' ? null : reproduccion.desenlace,
   }
 }

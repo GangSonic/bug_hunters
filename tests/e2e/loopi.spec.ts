@@ -13,7 +13,6 @@ async function abrirSinAnimaciones(page: Page) {
 
 async function irALoopi(page: Page) {
   await page.getByRole('button', { name: 'Jugar' }).click()
-  await page.getByRole('button', { name: 'Elegir Zona de Control' }).click()
   await page.getByRole('button', { name: 'Investigar el caso de Loopi' }).click()
   await page.getByRole('button', { name: 'Comenzar' }).click()
 }
@@ -26,41 +25,41 @@ test('Loopi de principio a fin: intento incompleto, solución, explicación y fi
 
   // E1: la anomalía se ejecuta sola.
   await expect(page.getByText('Paso 1 de 4: observa a Loopi')).toBeVisible()
-  await expect(page.getByRole('status').filter({ hasText: 'En ejecución' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: 'Detenido' })).toBeVisible()
   await page.getByRole('button', { name: 'Siguiente' }).click()
 
-  // CA05.2: sin hipótesis no se puede probar.
-  await expect(page.getByText('Primero registra una hipótesis.')).toBeVisible()
-  await expect(page.getByRole('button', { name: /^Probar/ })).toBeDisabled()
+  // CA05.2: sin hipótesis, Probar avisa y no ejecuta.
+  await page.getByRole('button', { name: 'Entregados < 2' }).click()
+  await page.getByRole('button', { name: 'Probar' }).click()
+  await expect(page.getByText('Primero registra una hipótesis (paso 1).')).toBeVisible()
 
   await page.getByLabel(/Hipótesis/).selectOption({ label: 'La condición del ciclo es incorrecta' })
 
   // Intento incompleto (E5b).
-  await page.getByRole('radio', { name: 'Entregados < 2' }).click()
   await page.getByRole('button', { name: 'Probar' }).click()
   await expect(
     page.getByText('El reparto se detuvo, pero quedan 2 paquetes pendientes'),
   ).toBeVisible()
 
-  // Pista graduada.
-  await page.getByRole('button', { name: /Pista \(0 de 3\)/ }).click()
-  await expect(page.getByText('Pista 1 de 3:')).toBeVisible()
+  // Pista graduada (aviso flotante).
+  await page.getByRole('button', { name: 'Pista' }).click()
+  await expect(page.getByText(/^Pista 1\/3:/)).toBeVisible()
 
   // Solución (E5a).
-  await page.getByRole('radio', { name: 'Hay paquetes pendientes' }).click()
-  await page.getByRole('button', { name: 'Probar otra vez' }).click()
+  await page.getByRole('button', { name: 'Hay paquetes pendientes' }).click()
+  await page.getByRole('button', { name: 'Probar' }).click()
   await expect(page.getByText('¡Reparto completo! 4 de 4')).toBeVisible()
-  await page.getByRole('button', { name: 'Continuar' }).click()
+  await page.getByRole('button', { name: 'Continuar ›' }).click()
 
-  // P6: explicación y progreso guardado.
+  // P6: explicación.
   await expect(page.getByRole('heading', { name: '¡Caso resuelto!' })).toBeVisible()
-  await expect(page.getByText('Progreso guardado: 1 de 4 casos resueltos')).toBeVisible()
+  await expect(page.getByText('Concepto aprendido:')).toBeVisible()
 
   // P7: la ficha de Loopi está desbloqueada; las demás no.
-  await page.getByRole('button', { name: 'Ver ficha' }).click()
-  await expect(page.getByText('1 de 4 fichas')).toBeVisible()
+  await page.getByRole('button', { name: 'Ver ficha en BugDex' }).click()
+  await expect(page.getByText('Fichas de los casos resueltos · 1 de 4')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Loopi' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: '???' })).toHaveCount(3)
+  await expect(page.getByRole('heading', { name: '? ? ?' })).toHaveCount(3)
 })
 
 test('CA13.2 el progreso se conserva al recargar', async ({ page }) => {
@@ -78,11 +77,20 @@ test('CA13.2 el progreso se conserva al recargar', async ({ page }) => {
   await expect(page.getByText('1 de 4 casos resueltos')).toBeVisible()
 })
 
-test('CA01.2 Configuración se abre como capa y Esc la cierra', async ({ page }) => {
+test('Configuración se abre y vuelve al inicio', async ({ page }) => {
   await abrirSinAnimaciones(page)
   await page.getByRole('button', { name: 'Configuración' }).click()
-  await expect(page.getByRole('dialog', { name: 'Configuración' })).toBeVisible()
-  await page.keyboard.press('Escape')
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Configuración' })).toBeVisible()
+  await page.getByRole('button', { name: 'Oscuro' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-tema', 'oscuro')
+  await page.getByRole('button', { name: 'Inicio' }).click()
   await expect(page.getByRole('button', { name: 'Jugar' })).toBeVisible()
+})
+
+test('Salir pide confirmación y muestra la despedida', async ({ page }) => {
+  await abrirSinAnimaciones(page)
+  await page.getByRole('button', { name: 'Salir' }).click()
+  await expect(page.getByRole('heading', { name: '¿Salir del laboratorio?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Salir' }).click()
+  await expect(page.getByRole('heading', { name: '¡Gracias por jugar!' })).toBeVisible()
 })

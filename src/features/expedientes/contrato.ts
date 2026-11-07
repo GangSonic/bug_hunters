@@ -78,6 +78,8 @@ export interface Expediente {
   preguntaHipotesis: string
   hipotesis: [Hipotesis, Hipotesis, Hipotesis]
   preguntaReparacion: string
+  /** Indicación breve bajo la pregunta de reparación (por ejemplo, «Elige la condición del ciclo.»). */
+  indicacionReparacion: string
   /** Exactamente 3: la anomalía (regla inicial), una parcial y una correcta. */
   opciones: [Opcion, Opcion, Opcion]
   opcionAnomalia: string

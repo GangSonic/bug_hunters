@@ -7,27 +7,21 @@ type Variante = 'primario' | 'secundario' | 'pill'
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variante?: Variante
   icono?: NombreIcono
-  grande?: boolean
-  ancho?: boolean
   children: ReactNode
 }
 
+/** Botón común: .btn, .btn.primary y .pill de la primera versión. */
 export function Boton({
   variante = 'secundario',
   icono,
-  grande,
-  ancho,
   className,
   children,
   type = 'button',
   ...resto
 }: Props) {
   const clases = [
-    estilos.boton,
+    variante === 'pill' ? estilos.pill : estilos.btn,
     variante === 'primario' && estilos.primario,
-    variante === 'pill' && estilos.pill,
-    grande && estilos.grande,
-    ancho && estilos.ancho,
     className,
   ]
     .filter(Boolean)
