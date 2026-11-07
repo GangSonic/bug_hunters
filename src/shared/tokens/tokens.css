@@ -1,0 +1,127 @@
+/* Tokens de diseño de Bug Hunters (tomados de la primera versión, bughunters.html). */
+:root {
+  --bg: #f4efe4;
+  --surface: #ffffff;
+  --surface-2: #fbf8f1;
+  --panel: #f3eff9;
+  --stage: #ede9f7;
+  --stage-2: #e3def2;
+  --stage-line: #cfc7ea;
+  --ink: #2e2650;
+  --ink-2: #625a85;
+  --line: #e7e0d4;
+  --line-2: #d8d0e8;
+  --purple: #6c5bc9;
+  --purple-deep: #3b2f7a;
+  --purple-bg: #ede9fb;
+  --teal: #2ba58a;
+  --teal-deep: #145244;
+  --teal-bg: #dff3ec;
+  --cta: #24784f;
+  --cta-deep: #1b5e3d;
+  --cafe: #c0894e;
+  --amber: #8f5c10;
+  --amber-bg: #fbeeda;
+  --err: #b0362a;
+  --err-bg: #fbe9e7;
+  --ok: #17785a;
+  --ok-bg: #dff3ec;
+  --idle: #625a85;
+  --idle-bg: #ece8f4;
+
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 11px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --focus-ring: 0 0 0 3px var(--surface), 0 0 0 5px var(--purple);
+
+  color-scheme: light;
+}
+
+:root[data-tema='oscuro'] {
+  --bg: #16131f;
+  --surface: #231e33;
+  --surface-2: #1c1829;
+  --panel: #221d34;
+  --stage: #2a2545;
+  --stage-2: #241f3c;
+  --stage-line: #3e3663;
+  --ink: #eeebfa;
+  --ink-2: #b4adcf;
+  --line: #332c4a;
+  --line-2: #3c3456;
+  --purple: #a395ee;
+  --purple-deep: #d6cffb;
+  --purple-bg: #2c2550;
+  --teal-bg: #123a30;
+  --teal-deep: #8fe3cb;
+  --cta: #24784f;
+  --cta-deep: #1b5e3d;
+  --amber: #f2c06b;
+  --amber-bg: #3a2d12;
+  --err: #f19a90;
+  --err-bg: #3a1e1b;
+  --ok: #6fd9b2;
+  --ok-bg: #12352b;
+  --idle: #b4adcf;
+  --idle-bg: #2a2640;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-tema='auto'] {
+    --bg: #16131f;
+    --surface: #231e33;
+    --surface-2: #1c1829;
+    --panel: #221d34;
+    --stage: #2a2545;
+    --stage-2: #241f3c;
+    --stage-line: #3e3663;
+    --ink: #eeebfa;
+    --ink-2: #b4adcf;
+    --line: #332c4a;
+    --line-2: #3c3456;
+    --purple: #a395ee;
+    --purple-deep: #d6cffb;
+    --purple-bg: #2c2550;
+    --teal-bg: #123a30;
+    --teal-deep: #8fe3cb;
+    --cta: #24784f;
+    --cta-deep: #1b5e3d;
+    --amber: #f2c06b;
+    --amber-bg: #3a2d12;
+    --err: #f19a90;
+    --err-bg: #3a1e1b;
+    --ok: #6fd9b2;
+    --ok-bg: #12352b;
+    --idle: #b4adcf;
+    --idle-bg: #2a2640;
+    color-scheme: dark;
+  }
+}
+
+/* Animaciones apagadas desde Configuración o por preferencia del sistema. */
+:root[data-animaciones='no'] *,
+:root[data-animaciones='no'] *::before,
+:root[data-animaciones='no'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,96 @@
+.portada {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 360px;
+}
+@media (max-width: 720px) {
+  .portada {
+    grid-template-columns: 1fr;
+  }
+}
+.izquierda {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  background: var(--panel);
+}
+.logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: var(--purple);
+  line-height: 0.95;
+  margin: 0;
+}
+.logo span {
+  color: var(--purple-deep);
+}
+.subtitulo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 6px 0 0;
+}
+.lema {
+  color: var(--ink-2);
+  margin: 4px 0 18px;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 240px;
+}
+.avance {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  margin: 18px 0 0;
+}
+.derecha {
+  background: var(--stage);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+.derecha img {
+  width: 170px;
+  max-width: 70%;
+  image-rendering: pixelated;
+  animation: flotar 3s ease-in-out infinite;
+}
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.interrogacion {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--purple);
+  opacity: 0.45;
+}
+.despedida {
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.despedida p {
+  color: var(--ink-2);
+  max-width: 380px;
+  margin: 0 0 8px;
+}

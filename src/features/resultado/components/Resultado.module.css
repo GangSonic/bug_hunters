@@ -1,0 +1,78 @@
+.cuerpo {
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.insignia {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ok-bg);
+  color: var(--ok);
+  display: grid;
+  place-items: center;
+}
+.criatura {
+  width: 100px;
+  image-rendering: pixelated;
+  animation: saltar 0.9s ease-in-out infinite;
+}
+@keyframes saltar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.caso {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+.tarjeta {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  max-width: 540px;
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+.tarjeta p {
+  margin: 0;
+}
+.tarjeta b {
+  color: var(--purple-deep);
+}
+.concepto {
+  background: var(--purple-bg);
+  color: var(--purple-deep);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-weight: 600;
+}
+.guardado {
+  font-size: 0.82rem;
+  color: var(--ok);
+  font-weight: 800;
+  margin: 0;
+}
+.acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 540px;
+}
+.acciones > * {
+  flex: 1;
+  min-width: 140px;
+}

@@ -1,0 +1,249 @@
+.cuerpo {
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+.rejilla {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .rejilla {
+    grid-template-columns: 1fr;
+  }
+}
+.zonaB {
+  display: grid;
+  gap: 10px;
+}
+.filaEstado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.contadores {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+.contador {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 6px 12px;
+  text-align: center;
+}
+.contadorNombre {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+.contadorValor {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+}
+.panel {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+}
+.panelTitulo {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.panelTitulo svg {
+  color: var(--purple);
+}
+.inspeccion {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.regla {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  padding: 10px;
+  line-height: 1.7;
+  white-space: pre;
+  overflow-x: auto;
+  margin: 0 0 10px;
+}
+.hueco {
+  background: var(--amber-bg);
+  color: var(--amber);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+.variables {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  background: var(--panel);
+  border-radius: 9px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.campo {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink-2);
+  margin: 4px 0;
+}
+.selector {
+  width: 100%;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px solid var(--line-2);
+  border-radius: 9px;
+  padding: 9px;
+}
+.selector:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.pistas {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.pista {
+  background: var(--amber-bg);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.82rem;
+}
+.pista strong {
+  color: var(--amber);
+}
+.ayudaBloqueo {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  margin: 2px 0 8px;
+  font-weight: 700;
+}
+.opciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.opcion {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--line-2);
+  border-radius: 9px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.opcion::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--line-2);
+}
+.opcion[aria-checked='true'] {
+  background: var(--purple-bg);
+  border-color: var(--purple);
+  color: var(--purple-deep);
+}
+.opcion[aria-checked='true']::before {
+  border-color: var(--purple);
+  background: var(--purple);
+}
+.opcion:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.opcion:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.controles {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.controles > * {
+  flex: 1;
+  min-width: 120px;
+}
+.aviso {
+  border-radius: 11px;
+  padding: 11px 13px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.aviso p {
+  margin: 0;
+}
+.avisoTitulo {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.avisoAcciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.correcto {
+  background: var(--ok-bg);
+  border-color: var(--ok);
+}
+.correcto .avisoTitulo,
+.correcto > svg {
+  color: var(--ok);
+}
+.incompleto {
+  background: var(--amber-bg);
+  border-color: var(--amber);
+}
+.incompleto .avisoTitulo,
+.incompleto > svg {
+  color: var(--amber);
+}
+.sinCambio {
+  background: var(--err-bg);
+  border-color: var(--err);
+}
+.sinCambio .avisoTitulo,
+.sinCambio > svg {
+  color: var(--err);
+}
+.nota {
+  margin-top: 6px !important;
+  font-size: 0.82rem;
+}

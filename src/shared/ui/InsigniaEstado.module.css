@@ -1,0 +1,25 @@
+.insignia {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.enEjecucion {
+  color: var(--amber);
+  background: var(--amber-bg);
+}
+.detenido {
+  color: var(--err);
+  background: var(--err-bg);
+}
+.resuelto {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+.listo {
+  color: var(--idle);
+  background: var(--idle-bg);
+}

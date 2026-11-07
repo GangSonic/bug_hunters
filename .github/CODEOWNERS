@@ -1,0 +1,19 @@
+# Responsable principal de cada carpeta (Backlog v2, sección 4).
+# Reemplaza cada <usuario-...> por el usuario de GitHub correspondiente y quita el # inicial.
+# Un PR que toca una carpeta pide automáticamente la revisión de su responsable.
+
+# /src/app/                          <usuario-dafne>
+# /src/shared/                       <usuario-jasmin>
+# /src/features/inicio/              <usuario-jasmin>
+# /src/features/seleccion/           <usuario-jessica>
+# /src/features/mision/              <usuario-dafne> <usuario-jasmin>
+# /src/features/expedientes/loopi/   <usuario-jasmin>
+# /src/features/expedientes/confusin/ <usuario-dafne>
+# /src/features/expedientes/nullito/ <usuario-jasmin>
+# /src/features/expedientes/cambion/ <usuario-jessica>
+# /src/features/resultado/           <usuario-jessica>
+# /src/features/bugdex/              <usuario-dafne>
+# /src/features/progreso/            <usuario-jessica>
+# /src/features/ayuda/               <usuario-jessica>
+# /src/features/configuracion/       <usuario-jasmin>
+# /src/features/piloto/              <usuario-dafne>

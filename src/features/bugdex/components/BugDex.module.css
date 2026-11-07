@@ -1,0 +1,95 @@
+.cuerpo {
+  padding: 16px;
+}
+.resumen {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.fichas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .fichas {
+    grid-template-columns: 1fr;
+  }
+}
+.ficha {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+.resaltada {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px var(--purple-bg);
+}
+.cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cabecera img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.bloqueada img {
+  filter: grayscale(1) brightness(0.6);
+  opacity: 0.45;
+}
+.nombre {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0;
+}
+.mundo {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ink-2);
+}
+.numero {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+.filas {
+  margin: 0;
+  display: grid;
+  gap: 5px;
+  font-size: 0.85rem;
+}
+.filas dt {
+  display: inline;
+  font-weight: 700;
+  color: var(--purple-deep);
+}
+.filas dd {
+  display: inline;
+  margin: 0;
+}
+.concepto {
+  background: var(--purple-bg);
+  color: var(--purple-deep);
+  border-radius: 7px;
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+.pendiente {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  font-style: italic;
+  margin: 0;
+}

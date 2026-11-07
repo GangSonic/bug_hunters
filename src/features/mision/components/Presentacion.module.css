@@ -1,0 +1,65 @@
+.cuerpo {
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.criatura {
+  width: 130px;
+  image-rendering: pixelated;
+  animation: flotar 3s ease-in-out infinite;
+}
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.mundo {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+.saludo {
+  margin: 0;
+  font-weight: 700;
+}
+.texto {
+  max-width: 520px;
+  margin: 0;
+}
+.mision {
+  background: var(--purple-bg);
+  color: var(--purple-deep);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+}
+.pasos {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 8px;
+}
+.paso {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.paso svg {
+  color: var(--purple);
+}

@@ -1,0 +1,150 @@
+.cuerpo {
+  padding: 16px;
+}
+.mundos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 720px) {
+  .mundos {
+    grid-template-columns: 1fr;
+  }
+}
+.tarjeta {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.cabeceraMundo {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.control .cabeceraMundo {
+  background: var(--purple-bg);
+}
+.datos .cabeceraMundo {
+  background: var(--teal-bg);
+}
+.iconoMundo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+.control .iconoMundo {
+  background: var(--purple);
+}
+.datos .iconoMundo {
+  background: var(--teal);
+}
+.nombreMundo {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0;
+}
+.descripcion {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+.criaturas {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  padding: 14px;
+}
+.criaturas img {
+  height: 70px;
+  image-rendering: pixelated;
+}
+.pie {
+  padding: 0 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.casos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 560px) {
+  .casos {
+    grid-template-columns: 1fr;
+  }
+}
+.caso {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+.caso img {
+  height: 80px;
+  image-rendering: pixelated;
+}
+.nombreCaso {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+}
+.problema {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  margin: 0;
+}
+.estadoCaso {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--idle-bg);
+  color: var(--idle);
+}
+.completado {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.progreso {
+  margin-top: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.barra {
+  flex: 1;
+  min-width: 120px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+.barra span {
+  display: block;
+  height: 100%;
+  background: var(--cta);
+}

@@ -1,0 +1,5 @@
+# Todo el equipo usa saltos de línea LF, aunque trabaje en Windows.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary

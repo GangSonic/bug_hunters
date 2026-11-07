@@ -1,0 +1,166 @@
+.escena {
+  position: relative;
+  height: 210px;
+  background: var(--stage);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.destino {
+  position: absolute;
+  top: 16px;
+  right: 12px;
+  bottom: 48px;
+  width: 44px;
+  background: var(--stage-2);
+  border: 2px solid var(--stage-line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--cta);
+}
+.etiquetaDestino {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+.criatura {
+  position: absolute;
+  bottom: 44px;
+  width: 112px;
+  z-index: 2;
+  transition: left 0.45s ease-in-out;
+}
+.criatura img {
+  display: block;
+  width: 100%;
+  image-rendering: pixelated;
+}
+.contadorPecho {
+  position: absolute;
+  left: 58%;
+  top: 52%;
+  background: #0d2a22;
+  border: 2px solid #0f6e56;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: #7cf0c0;
+  font-variant-numeric: tabular-nums;
+}
+.caminando {
+  animation: bob 0.5s ease-in-out infinite;
+}
+.mareado {
+  animation: sacudir 0.24s ease-in-out infinite;
+}
+.feliz {
+  animation: saltar 0.55s ease-in-out infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+}
+@keyframes sacudir {
+  0%,
+  100% {
+    transform: translateX(-2px) rotate(-2.5deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(2.5deg);
+  }
+}
+@keyframes saltar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.elementos {
+  position: absolute;
+  left: 12px;
+  right: 64px;
+  bottom: 48px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.elemento {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 2px solid var(--stage-line);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+.ok {
+  background: var(--cafe);
+  border-color: #8a5e2e;
+  color: #fff;
+}
+.mal,
+.fallo {
+  background: var(--err-bg);
+  border-color: var(--err);
+  color: var(--err);
+}
+.aviso {
+  background: var(--amber-bg);
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.omitido {
+  border-style: dashed;
+  opacity: 0.6;
+}
+.banda {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, var(--stage-line) 0 12px, transparent 12px 24px);
+  border-top: 3px solid var(--stage-line);
+  border-bottom: 3px solid var(--stage-line);
+}
+.vueltas {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--ink-2);
+}
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
