@@ -25,13 +25,15 @@ export interface EstadoMision {
   intentos: Intento[]
   /** Hay una opción elegida que todavía no se probó (para O4, HU15). */
   edicionSinProbar: boolean
+  /** La reparación fue correcta, pero la hipótesis elegida no era la causa (DAAF-01, Decisión A). */
+  hipotesisPorRevisar: boolean
 }
 
 export type Evento =
   | { tipo: 'OBSERVACION_TERMINADA' }
   | { tipo: 'ELEGIR_HIPOTESIS'; id: string }
   | { tipo: 'ELEGIR_OPCION'; id: string }
-  | { tipo: 'PROBADO'; desenlace: Desenlace; hora: string }
+  | { tipo: 'PROBADO'; desenlace: Desenlace; hipotesisEsCausa: boolean; hora: string }
   | { tipo: 'REVISAR' }
   | { tipo: 'PEDIR_PISTA' }
   | { tipo: 'CONTINUAR' }
@@ -44,6 +46,7 @@ export const ESTADO_INICIAL: EstadoMision = {
   pistasVistas: 0,
   intentos: [],
   edicionSinProbar: false,
+  hipotesisPorRevisar: false,
 }
 
 const DESENLACE_A_ESTADO: Record<Desenlace, EstadoId> = {
@@ -92,16 +95,22 @@ export function transicion(actual: EstadoMision, evento: Evento): EstadoMision {
         pistasUsadas: actual.pistasVistas,
         hora: evento.hora,
       }
+      // DAAF-01 (Decisión A): una reparación correcta con una hipótesis que no es la causa
+      // NO resuelve el caso; se queda en E5b y se marca para revisar la evidencia.
+      const sinRespaldo = evento.desenlace === 'correcto' && !evento.hipotesisEsCausa
       return {
         ...actual,
-        estado: DESENLACE_A_ESTADO[evento.desenlace],
+        estado: sinRespaldo ? 'E5b' : DESENLACE_A_ESTADO[evento.desenlace],
+        hipotesisPorRevisar: sinRespaldo,
         intentos: [...actual.intentos, intento],
         edicionSinProbar: false,
       }
     }
 
     case 'REVISAR':
-      return estado === 'E5b' || estado === 'E5c' ? { ...actual, estado: 'E2' } : actual
+      return estado === 'E5b' || estado === 'E5c'
+        ? { ...actual, estado: 'E2', hipotesisPorRevisar: false }
+        : actual
 
     case 'PEDIR_PISTA':
       if (!INVESTIGANDO.includes(estado) || actual.pistasVistas >= MAX_PISTAS) return actual
