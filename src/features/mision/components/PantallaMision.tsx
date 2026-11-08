@@ -3,9 +3,11 @@ import { obtenerExpediente, type CasoId } from '@/features/expedientes'
 import { useProgreso } from '@/features/progreso'
 import { Boton, InsigniaEstado, Marco, mostrarAviso, useTecla } from '@/shared'
 import { useMision } from '../hooks/useMision'
-import { MAX_PISTAS, puedeReparar, type EstadoId } from '../logic/maquinaEstados'
+import { MAX_PISTAS, puedePedirPista, puedeReparar, type EstadoId } from '../logic/maquinaEstados'
 import { AvisoMision } from './AvisoMision'
 import { BarraReparacion } from './BarraReparacion'
+import { ControlesMision } from './ControlesMision'
+import { ListaPistas } from './ListaPistas'
 import type { ContextoRecuperacion, ContextoTutorial, SalidaMision } from './huecos'
 import { PanelInvestiga } from './PanelInvestiga'
 import estilos from './PantallaMision.module.css'
@@ -67,14 +69,7 @@ export function PantallaMision({
     probar()
   }
 
-  const alPedirPista = () => {
-    if (mision.pistasVistas >= MAX_PISTAS)
-      return mostrarAviso('Ya viste todas las pistas de este caso.')
-    mostrarAviso(
-      `Pista ${mision.pistasVistas + 1}/${MAX_PISTAS}: ${caso.pistas[mision.pistasVistas]}`,
-    )
-    despachar({ tipo: 'PEDIR_PISTA' })
-  }
+  const alPedirPista = () => despachar({ tipo: 'PEDIR_PISTA' })
 
   const alReiniciar = () => {
     setError('')
@@ -159,26 +154,15 @@ export function PantallaMision({
           habilitada={puedeReparar(mision) && !reproduciendo}
         />
 
-        <div className={estilos.controls}>
-          <Boton
-            variante="primario"
-            icono="jugar"
-            onClick={alProbar}
-            disabled={reproduciendo || enObservacion || mision.estado === 'E6'}
-          >
-            Probar
-          </Boton>
-          <Boton
-            icono="reiniciar"
-            onClick={alReiniciar}
-            disabled={reproduciendo || mision.estado === 'E6'}
-          >
-            Reiniciar
-          </Boton>
-          <Boton icono="foco" onClick={alPedirPista} disabled={reproduciendo || enObservacion}>
-            Pista
-          </Boton>
-        </div>
+        <ControlesMision
+          probarDeshabilitado={reproduciendo || enObservacion || mision.estado === 'E6'}
+          reiniciarDeshabilitado={reproduciendo || mision.estado === 'E6'}
+          pistaDeshabilitada={reproduciendo || !puedePedirPista(mision)}
+          onProbar={alProbar}
+          onReiniciar={alReiniciar}
+          onPista={alPedirPista}
+        />
+        <ListaPistas vistas={caso.pistas.slice(0, mision.pistasVistas)} total={MAX_PISTAS} />
 
         {renderTutorial && ANTES_DE_PROBAR.includes(mision.estado) ? (
           renderTutorial({

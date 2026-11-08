@@ -41,9 +41,9 @@ test('Loopi de principio a fin: intento incompleto, solución, explicación y fi
     page.getByText('El reparto se detuvo, pero quedan 2 paquetes pendientes'),
   ).toBeVisible()
 
-  // Pista graduada (aviso flotante).
+  // Pista graduada: queda visible bajo los botones.
   await page.getByRole('button', { name: 'Pista' }).click()
-  await expect(page.getByText(/^Pista 1\/3:/)).toBeVisible()
+  await expect(page.getByRole('list', { name: 'Pistas' })).toContainText('Pista 1 de 3:')
 
   // Solución (E5a).
   await page.getByRole('button', { name: 'Hay paquetes pendientes' }).click()

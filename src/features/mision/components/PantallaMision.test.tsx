@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useConfiguracion } from '@/features/configuracion'
 import { useProgreso } from '@/features/progreso'
@@ -115,5 +115,42 @@ describe('PantallaMision: huecos para otras features', () => {
     expect(screen.queryByRole('button', { name: /Continuar/ })).toBeNull()
     await usuario.click(screen.getByRole('button', { name: 'Recuperación' }))
     expect(onResuelto).toHaveBeenCalledOnce()
+  })
+})
+
+describe('PantallaMision: pistas bajo los botones', () => {
+  it('Pista está deshabilitada mientras se observa la anomalía', () => {
+    montar()
+    expect(screen.getByRole('button', { name: 'Pista' })).toBeDisabled()
+  })
+
+  it('pedir una pista la deja visible y no abre el aviso flotante (CA07.2)', async () => {
+    const { usuario } = montar()
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    await usuario.click(screen.getByRole('button', { name: 'Pista' }))
+
+    expect(screen.getByRole('list', { name: 'Pistas' })).toHaveTextContent('Pista 1 de 3:')
+    expect(useAvisos.getState().visible).toBe(false)
+  })
+
+  it('después de la tercera avisa que no hay más y desactiva el botón', async () => {
+    const { usuario } = montar()
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    for (let i = 0; i < 3; i++) await usuario.click(screen.getByRole('button', { name: 'Pista' }))
+
+    expect(
+      within(screen.getByRole('list', { name: 'Pistas' })).getAllByRole('listitem'),
+    ).toHaveLength(3)
+    expect(screen.getByText('Ya viste las 3 pistas de este caso.')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Pista' })).toBeDisabled()
+  })
+
+  it('Reiniciar vuelve a empezar sin pistas', async () => {
+    const { usuario } = montar()
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    await usuario.click(screen.getByRole('button', { name: 'Pista' }))
+    await usuario.click(screen.getByRole('button', { name: 'Reiniciar' }))
+
+    expect(screen.queryByRole('list', { name: 'Pistas' })).toBeNull()
   })
 })

@@ -173,22 +173,6 @@
   background: var(--ok-bg);
   color: var(--ok);
 }
-.pistas {
-  margin: 10px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 6px;
-}
-.pista {
-  background: var(--amber-bg);
-  border-radius: 8px;
-  padding: 7px 10px;
-  font-size: 0.78rem;
-}
-.pista strong {
-  color: var(--amber);
-}
 .repair {
   margin-top: 12px;
   background: var(--surface-2);
@@ -280,16 +264,6 @@
 .opt:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-.controls {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-.controls > button {
-  flex: 1;
-  min-width: 100px;
 }
 .resultbar {
   margin-top: 12px;
