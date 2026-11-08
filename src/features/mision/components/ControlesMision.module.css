@@ -1,0 +1,11 @@
+/* Zona E — botones de la misión (copiado de la primera versión). */
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.controls > button {
+  flex: 1;
+  min-width: 100px;
+}

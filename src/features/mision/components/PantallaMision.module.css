@@ -281,16 +281,6 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-.controls {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-.controls > button {
-  flex: 1;
-  min-width: 100px;
-}
 .resultbar {
   margin-top: 12px;
   border-radius: 11px;

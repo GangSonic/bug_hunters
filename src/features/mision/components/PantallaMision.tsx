@@ -6,6 +6,7 @@ import { useMision } from '../hooks/useMision'
 import { MAX_PISTAS, puedeReparar, type EstadoId } from '../logic/maquinaEstados'
 import { AvisoMision } from './AvisoMision'
 import { BarraReparacion } from './BarraReparacion'
+import { ControlesMision } from './ControlesMision'
 import type { ContextoRecuperacion, ContextoTutorial, SalidaMision } from './huecos'
 import { PanelInvestiga } from './PanelInvestiga'
 import estilos from './PantallaMision.module.css'
@@ -159,26 +160,14 @@ export function PantallaMision({
           habilitada={puedeReparar(mision) && !reproduciendo}
         />
 
-        <div className={estilos.controls}>
-          <Boton
-            variante="primario"
-            icono="jugar"
-            onClick={alProbar}
-            disabled={reproduciendo || enObservacion || mision.estado === 'E6'}
-          >
-            Probar
-          </Boton>
-          <Boton
-            icono="reiniciar"
-            onClick={alReiniciar}
-            disabled={reproduciendo || mision.estado === 'E6'}
-          >
-            Reiniciar
-          </Boton>
-          <Boton icono="foco" onClick={alPedirPista} disabled={reproduciendo || enObservacion}>
-            Pista
-          </Boton>
-        </div>
+        <ControlesMision
+          probarDeshabilitado={reproduciendo || enObservacion || mision.estado === 'E6'}
+          reiniciarDeshabilitado={reproduciendo || mision.estado === 'E6'}
+          pistaDeshabilitada={reproduciendo || enObservacion}
+          onProbar={alProbar}
+          onReiniciar={alReiniciar}
+          onPista={alPedirPista}
+        />
 
         {renderTutorial && ANTES_DE_PROBAR.includes(mision.estado) ? (
           renderTutorial({
