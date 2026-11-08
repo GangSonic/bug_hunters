@@ -40,7 +40,7 @@ describe('máquina de estados de la misión', () => {
       { tipo: 'OBSERVACION_TERMINADA' },
       { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
       { tipo: 'ELEGIR_OPCION', id: 'a' },
-      { tipo: 'PROBADO', desenlace: 'correcto', hora: HORA },
+      { tipo: 'PROBADO', desenlace: 'correcto', hipotesisEsCausa: true, hora: HORA },
       { tipo: 'CONTINUAR' },
     ])
     expect(m.estado).toBe('E6')
@@ -53,12 +53,22 @@ describe('máquina de estados de la misión', () => {
       { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
       { tipo: 'ELEGIR_OPCION', id: 'a' },
     ])
-    expect(transicion(base, { tipo: 'PROBADO', desenlace: 'incompleto', hora: HORA }).estado).toBe(
-      'E5b',
-    )
-    expect(transicion(base, { tipo: 'PROBADO', desenlace: 'sinCambio', hora: HORA }).estado).toBe(
-      'E5c',
-    )
+    expect(
+      transicion(base, {
+        tipo: 'PROBADO',
+        desenlace: 'incompleto',
+        hipotesisEsCausa: true,
+        hora: HORA,
+      }).estado,
+    ).toBe('E5b')
+    expect(
+      transicion(base, {
+        tipo: 'PROBADO',
+        desenlace: 'sinCambio',
+        hipotesisEsCausa: true,
+        hora: HORA,
+      }).estado,
+    ).toBe('E5c')
   })
 
   it('desde E5b se revisa (E2) o se prueba otra opción (E4), sin límite de intentos', () => {
@@ -66,14 +76,14 @@ describe('máquina de estados de la misión', () => {
       { tipo: 'OBSERVACION_TERMINADA' },
       { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
       { tipo: 'ELEGIR_OPCION', id: 'a' },
-      { tipo: 'PROBADO', desenlace: 'incompleto', hora: HORA },
+      { tipo: 'PROBADO', desenlace: 'incompleto', hipotesisEsCausa: true, hora: HORA },
     ])
     expect(transicion(m, { tipo: 'REVISAR' }).estado).toBe('E2')
     for (let i = 0; i < 10; i++) {
       m = aplicar(
         [
           { tipo: 'ELEGIR_OPCION', id: 'b' },
-          { tipo: 'PROBADO', desenlace: 'incompleto', hora: HORA },
+          { tipo: 'PROBADO', desenlace: 'incompleto', hipotesisEsCausa: true, hora: HORA },
         ],
         m,
       )
@@ -87,7 +97,7 @@ describe('máquina de estados de la misión', () => {
       { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
       { tipo: 'PEDIR_PISTA' },
       { tipo: 'ELEGIR_OPCION', id: 'a' },
-      { tipo: 'PROBADO', desenlace: 'sinCambio', hora: HORA },
+      { tipo: 'PROBADO', desenlace: 'sinCambio', hipotesisEsCausa: true, hora: HORA },
       { tipo: 'REINICIAR' },
     ])
     expect(m.estado).toBe('E1')
@@ -111,7 +121,7 @@ describe('máquina de estados de la misión', () => {
       { tipo: 'PEDIR_PISTA' },
       { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
       { tipo: 'ELEGIR_OPCION', id: 'a' },
-      { tipo: 'PROBADO', desenlace: 'incompleto', hora: HORA },
+      { tipo: 'PROBADO', desenlace: 'incompleto', hipotesisEsCausa: true, hora: HORA },
     ])
     expect(m.intentos[0]?.pistasUsadas).toBe(2)
   })
@@ -124,18 +134,67 @@ describe('máquina de estados de la misión', () => {
     ])
     expect(m.edicionSinProbar).toBe(true)
     expect(
-      transicion(m, { tipo: 'PROBADO', desenlace: 'correcto', hora: HORA }).edicionSinProbar,
+      transicion(m, { tipo: 'PROBADO', desenlace: 'correcto', hipotesisEsCausa: true, hora: HORA })
+        .edicionSinProbar,
     ).toBe(false)
   })
 
   it('ignora eventos fuera de lugar', () => {
     expect(transicion(ESTADO_INICIAL, { tipo: 'CONTINUAR' })).toBe(ESTADO_INICIAL)
     expect(transicion(ESTADO_INICIAL, { tipo: 'REVISAR' })).toBe(ESTADO_INICIAL)
-    expect(transicion(ESTADO_INICIAL, { tipo: 'PROBADO', desenlace: 'correcto', hora: HORA })).toBe(
-      ESTADO_INICIAL,
-    )
+    expect(
+      transicion(ESTADO_INICIAL, {
+        tipo: 'PROBADO',
+        desenlace: 'correcto',
+        hipotesisEsCausa: true,
+        hora: HORA,
+      }),
+    ).toBe(ESTADO_INICIAL)
     const e6 = { ...ESTADO_INICIAL, estado: 'E6' as const }
     expect(transicion(e6, { tipo: 'REINICIAR' })).toBe(e6)
     expect(transicion(e6, { tipo: 'ELEGIR_HIPOTESIS', id: 'h' })).toBe(e6)
+  })
+})
+
+describe('DAAF-01: la hipótesis debe ser la causa (Decisión A)', () => {
+  const hasta04 = (): EstadoMision =>
+    aplicar([
+      { tipo: 'OBSERVACION_TERMINADA' },
+      { tipo: 'ELEGIR_HIPOTESIS', id: 'h' },
+      { tipo: 'ELEGIR_OPCION', id: 'a' },
+    ])
+
+  it('corrección correcta CON la causa correcta resuelve (E5a) y no queda por revisar', () => {
+    const m = transicion(hasta04(), {
+      tipo: 'PROBADO',
+      desenlace: 'correcto',
+      hipotesisEsCausa: true,
+      hora: HORA,
+    })
+    expect(m.estado).toBe('E5a')
+    expect(m.hipotesisPorRevisar).toBe(false)
+  })
+
+  it('corrección correcta con hipótesis equivocada NO resuelve: queda en E5b y por revisar', () => {
+    const m = transicion(hasta04(), {
+      tipo: 'PROBADO',
+      desenlace: 'correcto',
+      hipotesisEsCausa: false,
+      hora: HORA,
+    })
+    expect(m.estado).toBe('E5b')
+    expect(m.hipotesisPorRevisar).toBe(true)
+  })
+
+  it('al revisar desde E5b se limpia la marca de hipótesis por revisar', () => {
+    const conMarca = transicion(hasta04(), {
+      tipo: 'PROBADO',
+      desenlace: 'correcto',
+      hipotesisEsCausa: false,
+      hora: HORA,
+    })
+    const revisado = transicion(conMarca, { tipo: 'REVISAR' })
+    expect(revisado.estado).toBe('E2')
+    expect(revisado.hipotesisPorRevisar).toBe(false)
   })
 })
