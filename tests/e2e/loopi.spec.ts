@@ -87,6 +87,18 @@ test('Configuración se abre y vuelve al inicio', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Jugar' })).toBeVisible()
 })
 
+test('Reiniciar el progreso pide confirmación y se puede cancelar', async ({ page }) => {
+  await abrirSinAnimaciones(page)
+  await page.getByRole('button', { name: 'Configuración' }).click()
+  await page.getByRole('button', { name: 'Reiniciar' }).click()
+  await expect(page.getByRole('heading', { name: '¿Reiniciar el progreso?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Cancelar' }).click()
+  await expect(page.getByRole('heading', { name: 'Configuración' })).toBeVisible()
+  await page.getByRole('button', { name: 'Reiniciar' }).click()
+  await page.getByRole('button', { name: 'Sí, reiniciar' }).click()
+  await expect(page.getByText('Progreso reiniciado.')).toBeVisible()
+})
+
 test('Salir pide confirmación y muestra la despedida', async ({ page }) => {
   await abrirSinAnimaciones(page)
   await page.getByRole('button', { name: 'Salir' }).click()
