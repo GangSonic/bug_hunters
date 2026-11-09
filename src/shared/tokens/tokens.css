@@ -1,4 +1,7 @@
-/* Tokens de diseño: copiados de la primera versión (bughunters.html), sin cambios. */
+/*
+ * Tokens de diseño: copiados de la primera versión (bughunters.html).
+ * Agregado después: --blue y --blue-bg, el azul de Nullito (la primera versión no lo tenía).
+ */
 :root {
   --bg: #f4efe4;
   --surface: #ffffff;
@@ -17,6 +20,8 @@
   --teal: #2ba58a;
   --teal-deep: #145244;
   --teal-bg: #dff3ec;
+  --blue: #5b84b1;
+  --blue-bg: #e4edf8;
   --cta: #49b37e;
   --cta-deep: #2e7e55;
   --cafe: #c0894e;
@@ -52,6 +57,7 @@
     --line-2: #3c3456;
     --purple-bg: #2c2550;
     --teal-bg: #123a30;
+    --blue-bg: #1c2d49;
     --amber-bg: #3a2d12;
     --err-bg: #3a1e1b;
     --ok-bg: #12352b;
@@ -74,6 +80,7 @@
   --line-2: #3c3456;
   --purple-bg: #2c2550;
   --teal-bg: #123a30;
+  --blue-bg: #1c2d49;
   --amber-bg: #3a2d12;
   --err-bg: #3a1e1b;
   --ok-bg: #12352b;

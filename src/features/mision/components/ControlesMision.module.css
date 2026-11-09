@@ -3,7 +3,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 .controls > button {
   flex: 1;

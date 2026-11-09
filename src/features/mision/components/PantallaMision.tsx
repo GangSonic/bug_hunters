@@ -54,6 +54,8 @@ export function PantallaMision({
   const tutorialVisto = useProgreso((s) => s.tutorialVisto)
   const marcarTutorialVisto = useProgreso((s) => s.marcarTutorialVisto)
   const [error, setError] = useState('')
+  // Solo para el texto del botón: se apaga al reiniciar, cuando la ronda empieza de nuevo.
+  const [yaProbo, setYaProbo] = useState(false)
   const contadores = pasosMostrados.at(-1)?.contadores ?? {}
   const resuelto = mision.estado === 'E5a' || mision.estado === 'E6'
   const enObservacion = mision.estado === 'E1'
@@ -70,6 +72,7 @@ export function PantallaMision({
     if (!mision.hipotesisId) return setError('Primero registra una hipótesis (paso 1).')
     if (!mision.opcionId) return setError('Elige una corrección (paso 2).')
     setError('')
+    setYaProbo(true)
     probar()
   }
 
@@ -77,6 +80,7 @@ export function PantallaMision({
 
   const alReiniciar = () => {
     setError('')
+    setYaProbo(false)
     reiniciar()
   }
 
@@ -160,6 +164,7 @@ export function PantallaMision({
 
         <ControlesMision
           probarDeshabilitado={reproduciendo || enObservacion || mision.estado === 'E6'}
+          probarOtraVez={yaProbo}
           reiniciarDeshabilitado={reproduciendo || mision.estado === 'E6'}
           pistaDeshabilitada={reproduciendo || !puedePedirPista(mision)}
           onProbar={alProbar}
