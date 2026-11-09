@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCantidadResueltos } from '@/features/progreso'
 import { Boton, Icono, Marco, MensajeCentrado, rutaPublica } from '@/shared'
 import estilos from './Inicio.module.css'
@@ -14,6 +14,12 @@ type Vista = 'portada' | 'confirmarSalida' | 'despedida'
 export function Inicio({ onJugar, onConfiguracion }: Props) {
   const resueltos = useCantidadResueltos()
   const [vista, setVista] = useState<Vista>('portada')
+  const jugarRef = useRef<HTMLButtonElement>(null)
+
+  // CA02.1: Jugar recibe el foco al abrir y cada vez que se vuelve a la portada.
+  useEffect(() => {
+    if (vista === 'portada') jugarRef.current?.focus()
+  }, [vista])
 
   if (vista === 'confirmarSalida') {
     return (
@@ -68,12 +74,11 @@ export function Inicio({ onJugar, onConfiguracion }: Props) {
           </p>
           <p className={estilos.tag}>Cada error es un misterio.</p>
           <div className={estilos.menu}>
-            {/* oxlint-disable-next-line jsx-a11y/no-autofocus -- CA02.1: Jugar recibe el foco al abrir */}
             <button
+              ref={jugarRef}
               type="button"
               className={`${estilos.mbtn} ${estilos.play}`}
               onClick={onJugar}
-              autoFocus
             >
               <Icono nombre="jugar" /> Jugar
             </button>
