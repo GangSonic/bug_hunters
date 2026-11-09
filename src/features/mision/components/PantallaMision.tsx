@@ -17,7 +17,7 @@ type Props = {
   onResuelto: () => void
   onVolver: (salida: SalidaMision) => void
   /** Esc en la misión (HU15). Sin esta prop, Esc no hace nada. */
-  onPausa?: () => void
+  onPausa?: (salida: SalidaMision) => void
   /** Botón Ayuda (HU16). Sin esta prop se muestra el aviso breve de siempre. */
   onAyuda?: () => void
   /** Tutorial: reemplaza la barra de resultado mientras no se haya probado nada (E1 a E4). */
@@ -59,7 +59,11 @@ export function PantallaMision({
   const enObservacion = mision.estado === 'E1'
   const { Escena } = caso
 
-  useTecla('Escape', () => onPausa?.(), onPausa !== undefined)
+  useTecla(
+    'Escape',
+    () => onPausa?.({ edicionSinProbar: mision.edicionSinProbar }),
+    onPausa !== undefined,
+  )
 
   const alProbar = () => {
     if (reproduciendo) return
