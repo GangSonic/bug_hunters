@@ -198,3 +198,13 @@ describe('PantallaMision: Probar otra vez (CA06.3)', () => {
     expect(screen.getByRole('button', { name: 'Probar' })).toBeInTheDocument()
   })
 })
+
+describe('PantallaMision: concepto solo en P6 y la BugDex (decisión D, RNF12)', () => {
+  it('al resolver, la barra de resultado no nombra el concepto', async () => {
+    const { usuario } = montar()
+    await resolver(usuario)
+
+    expect(screen.getByText('¡Reparto completo! 4 de 4')).toBeInTheDocument()
+    expect(screen.queryByText(/Concepto/)).toBeNull()
+  })
+})
