@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
-import { PantallaMision, Presentacion } from '@/features/mision'
+import { PantallaMision, Presentacion, type SalidaMision } from '@/features/mision'
 import { Resultado } from '@/features/resultado'
 import { Seleccion } from '@/features/seleccion'
 import { Aviso } from '@/shared'
+import { Confirmacion } from './capas/Confirmacion'
+import { Pausa } from './capas/Pausa'
 import { useNavegacion } from './navegacion/navegacionStore'
 import estilos from './App.module.css'
 
@@ -27,6 +30,20 @@ export function App() {
   useAplicarConfiguracion()
   const alternarTema = useAlternarTema()
   const { pantalla, casoId, capa, irA, abrirCapa, cerrarCapa } = useNavegacion()
+  // HU15: recuerda si la misión tiene una corrección sin probar, para decidir si salir
+  // directo o pedir confirmación (O4), tanto desde «Volver» como desde la pausa (O1).
+  const [edicionSinProbar, setEdicionSinProbar] = useState(false)
+
+  const salirDeMision = (salida: SalidaMision) => {
+    if (salida.edicionSinProbar) {
+      setEdicionSinProbar(true)
+      abrirCapa('O4')
+    } else {
+      irA('P3')
+    }
+  }
+
+  const salirDesdePausa = () => (edicionSinProbar ? abrirCapa('O4') : irA('P3'))
 
   return (
     <div className={estilos.wrap}>
@@ -70,7 +87,11 @@ export function App() {
                 key={casoId}
                 casoId={casoId}
                 onResuelto={() => irA('P6')}
-                onVolver={() => irA('P3')}
+                onVolver={salirDeMision}
+                onPausa={(salida) => {
+                  setEdicionSinProbar(salida.edicionSinProbar)
+                  abrirCapa('O1')
+                }}
               />
             )}
             {pantalla === 'P6' && (
@@ -85,6 +106,9 @@ export function App() {
           </>
         )}
       </main>
+
+      {capa === 'O1' && <Pausa onReanudar={cerrarCapa} onSalir={salirDesdePausa} />}
+      {capa === 'O4' && <Confirmacion onSalir={() => irA('P3')} onCancelar={cerrarCapa} />}
 
       <Aviso />
     </div>
