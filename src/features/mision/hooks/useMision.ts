@@ -79,14 +79,18 @@ export function useMision(expediente: Expediente) {
     if (!reproduccion || reproduciendo || yaNotificado.current === reproduccion) return
     yaNotificado.current = reproduccion
     if (reproduccion.origen === 'prueba') {
+      // DAAF-01 (Decisión A): la hipótesis elegida debe ser la causa para que el caso resuelva.
+      const hipotesisEsCausa =
+        expediente.hipotesis.find((h) => h.id === mision.hipotesisId)?.esCausa ?? false
       despachar({
         tipo: 'PROBADO',
         desenlace: reproduccion.desenlace,
+        hipotesisEsCausa,
         hora: new Date().toISOString(),
       })
-      if (reproduccion.desenlace === 'correcto') marcarResuelto(expediente.id)
+      if (reproduccion.desenlace === 'correcto' && hipotesisEsCausa) marcarResuelto(expediente.id)
     }
-  }, [reproduccion, reproduciendo, expediente.id, marcarResuelto])
+  }, [reproduccion, reproduciendo, expediente, mision.hipotesisId, marcarResuelto])
 
   const probar = useCallback(() => {
     if (mision.opcionId) iniciar('prueba', mision.opcionId)
