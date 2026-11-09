@@ -154,3 +154,47 @@ describe('PantallaMision: pistas bajo los botones', () => {
     expect(screen.queryByRole('list', { name: 'Pistas' })).toBeNull()
   })
 })
+
+describe('PantallaMision: Probar otra vez (CA06.3)', () => {
+  const OPCION_INCOMPLETA = 'Entregados < 2'
+
+  async function probarIncompleto(usuario: ReturnType<typeof userEvent.setup>) {
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    await usuario.selectOptions(screen.getByLabelText(/Hipótesis/), HIPOTESIS_CAUSA)
+    await usuario.click(screen.getByRole('button', { name: OPCION_INCOMPLETA }))
+    await usuario.click(screen.getByRole('button', { name: 'Probar' }))
+  }
+
+  it('el botón dice «Probar» hasta que hay un intento', () => {
+    montar()
+    expect(screen.getByRole('button', { name: 'Probar' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Probar otra vez' })).toBeNull()
+  })
+
+  it('tras un intento dice «Probar otra vez», también al elegir otra corrección', async () => {
+    const { usuario } = montar()
+    await probarIncompleto(usuario)
+    expect(screen.getByRole('button', { name: 'Probar otra vez' })).toBeInTheDocument()
+
+    await usuario.click(screen.getByRole('button', { name: OPCION_CORRECTA }))
+    expect(screen.getByRole('button', { name: 'Probar otra vez' })).toBeInTheDocument()
+  })
+
+  it('Reiniciar vuelve a «Probar»', async () => {
+    const { usuario } = montar()
+    await probarIncompleto(usuario)
+
+    await usuario.click(screen.getByRole('button', { name: 'Reiniciar' }))
+
+    expect(screen.getByRole('button', { name: 'Probar' })).toBeInTheDocument()
+  })
+
+  it('un intento sin hipótesis no cuenta: sigue diciendo «Probar»', async () => {
+    const { usuario } = montar()
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    await usuario.click(screen.getByRole('button', { name: OPCION_INCOMPLETA }))
+    await usuario.click(screen.getByRole('button', { name: 'Probar' }))
+
+    expect(screen.getByRole('button', { name: 'Probar' })).toBeInTheDocument()
+  })
+})

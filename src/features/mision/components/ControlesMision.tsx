@@ -3,6 +3,8 @@ import estilos from './ControlesMision.module.css'
 
 type Props = {
   probarDeshabilitado: boolean
+  /** Ya hubo un intento en esta ronda: el botón dice «Probar otra vez» (CA06.3). */
+  probarOtraVez: boolean
   reiniciarDeshabilitado: boolean
   pistaDeshabilitada: boolean
   onProbar: () => void
@@ -13,6 +15,7 @@ type Props = {
 /** Zona E: los tres botones de la misión. Solo dibuja; las reglas viven en PantallaMision. */
 export function ControlesMision({
   probarDeshabilitado,
+  probarOtraVez,
   reiniciarDeshabilitado,
   pistaDeshabilitada,
   onProbar,
@@ -22,7 +25,7 @@ export function ControlesMision({
   return (
     <div className={estilos.controls}>
       <Boton variante="primario" icono="jugar" onClick={onProbar} disabled={probarDeshabilitado}>
-        Probar
+        {probarOtraVez ? 'Probar otra vez' : 'Probar'}
       </Boton>
       <Boton icono="reiniciar" onClick={onReiniciar} disabled={reiniciarDeshabilitado}>
         Reiniciar
