@@ -1,0 +1,38 @@
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--stage-2);
+  border-top: 2px solid var(--stage-line);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--ink-2);
+}
+.etiqueta {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.campo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.input {
+  width: 6rem;
+  padding: 4px 8px;
+  border: 2px solid var(--stage-line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.cuenta {
+  font-variant-numeric: tabular-nums;
+}
+.separa {
+  margin-left: auto;
+}
