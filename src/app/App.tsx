@@ -3,6 +3,7 @@ import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
 import { PantallaMision, Presentacion, type SalidaMision } from '@/features/mision'
+import { BarraPiloto, esPilotoActivo } from '@/features/piloto'
 import { Resultado } from '@/features/resultado'
 import { Seleccion } from '@/features/seleccion'
 import { Aviso } from '@/shared'
@@ -30,6 +31,8 @@ export function App() {
   useAplicarConfiguracion()
   const alternarTema = useAlternarTema()
   const { pantalla, casoId, capa, irA, abrirCapa, cerrarCapa } = useNavegacion()
+  // HU18: la barra del piloto solo aparece con ?piloto=1 en la URL.
+  const [piloto] = useState(esPilotoActivo)
   // HU15: recuerda si la misión tiene una corrección sin probar, para decidir si salir
   // directo o pedir confirmación (O4), tanto desde «Volver» como desde la pausa (O1).
   const [edicionSinProbar, setEdicionSinProbar] = useState(false)
@@ -109,6 +112,8 @@ export function App() {
 
       {capa === 'O1' && <Pausa onReanudar={cerrarCapa} onSalir={salirDesdePausa} />}
       {capa === 'O4' && <Confirmacion onSalir={() => irA('P3')} onCancelar={cerrarCapa} />}
+
+      {piloto && <BarraPiloto />}
 
       <Aviso />
     </div>
