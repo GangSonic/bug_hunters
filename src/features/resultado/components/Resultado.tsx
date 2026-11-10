@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { obtenerExpediente, type CasoId } from '@/features/expedientes'
+import { useCantidadResueltos } from '@/features/progreso'
 import { Boton, Icono, Marco, rutaPublica } from '@/shared'
 import estilos from './Resultado.module.css'
 
@@ -13,6 +14,7 @@ type Props = {
 /** P6 Resultado y explicación (E7, E9), con el diseño de la primera versión. */
 export function Resultado({ casoId, onVerFicha, onOtraMision, onInicio }: Props) {
   const caso = obtenerExpediente(casoId)
+  const cantidad = useCantidadResueltos()
   const tituloRef = useRef<HTMLHeadingElement>(null)
   useEffect(() => tituloRef.current?.focus(), [])
 
@@ -44,6 +46,7 @@ export function Resultado({ casoId, onVerFicha, onOtraMision, onInicio }: Props)
             .
           </p>
         </div>
+        <p className={estilos.guardado}>Progreso guardado: {cantidad} de 4</p>
         <div className={estilos.resActions}>
           <Boton variante="primario" onClick={onVerFicha}>
             Ver ficha en BugDex
