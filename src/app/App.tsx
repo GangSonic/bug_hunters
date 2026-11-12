@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BotonMusica, useMusica } from '@/features/audio'
 import { Ayuda, Tutorial } from '@/features/ayuda'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
@@ -32,6 +33,7 @@ export function App() {
   useAplicarConfiguracion()
   const alternarTema = useAlternarTema()
   const { pantalla, casoId, capa, irA, abrirCapa, cerrarCapa } = useNavegacion()
+  useMusica(pantalla)
   // HU18: la barra del piloto solo aparece con ?piloto=1 en la URL.
   const [piloto] = useState(esPilotoActivo)
   // HU15: recuerda si la misión tiene una corrección sin probar, para decidir si salir
@@ -53,14 +55,17 @@ export function App() {
     <div className={estilos.wrap}>
       <div className={estilos.topbar}>
         <span className={estilos.marca}>Bug Hunters · Laboratorio de Bugs</span>
-        <button
-          type="button"
-          className={estilos.botonTema}
-          onClick={alternarTema}
-          aria-label="Cambiar tema"
-        >
-          Tema
-        </button>
+        <div className={estilos.acciones}>
+          <BotonMusica className={estilos.botonTema} />
+          <button
+            type="button"
+            className={estilos.botonTema}
+            onClick={alternarTema}
+            aria-label="Cambiar tema"
+          >
+            Tema
+          </button>
+        </div>
       </div>
 
       <main>
