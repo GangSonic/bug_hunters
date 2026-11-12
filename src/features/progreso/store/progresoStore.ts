@@ -45,14 +45,21 @@ function existeDato(clave: string): boolean {
   }
 }
 
+const CASOS_VALIDOS: readonly CasoId[] = ['loopi', 'confusin', 'nullito', 'cambion']
+
+function esRegistroValido(valor: unknown): boolean {
+  if (typeof valor !== 'object' || valor === null) return false
+  return typeof (valor as Record<string, unknown>).fecha === 'string'
+}
+
 function esProgresoValido(dato: unknown): dato is DatosProgreso {
   if (typeof dato !== 'object' || dato === null) return false
   const { resueltos, tutorialVisto } = dato as Record<string, unknown>
-  return (
-    typeof tutorialVisto === 'boolean' &&
-    typeof resueltos === 'object' &&
-    resueltos !== null &&
-    !Array.isArray(resueltos)
+  if (typeof tutorialVisto !== 'boolean') return false
+  if (typeof resueltos !== 'object' || resueltos === null || Array.isArray(resueltos)) return false
+  // Cada caso resuelto debe ser uno conocido y traer su fecha; si no, se descarta todo.
+  return Object.entries(resueltos).every(
+    ([id, registro]) => CASOS_VALIDOS.includes(id as CasoId) && esRegistroValido(registro),
   )
 }
 

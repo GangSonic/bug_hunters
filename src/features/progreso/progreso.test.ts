@@ -65,6 +65,35 @@ describe('progreso', () => {
     expect(useProgreso.getState().progresoDescartado).toBe(false)
   })
 
+  it('CA13.3 un caso desconocido en resueltos descarta el progreso y avisa', async () => {
+    localStorage.setItem(
+      CLAVE_PROGRESO,
+      JSON.stringify({
+        state: {
+          resueltos: { inventado: { fecha: '2026-11-09T00:00:00.000Z' } },
+          tutorialVisto: false,
+        },
+        version: 1,
+      }),
+    )
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+  })
+
+  it('CA13.3 un caso sin fecha válida descarta el progreso y avisa', async () => {
+    localStorage.setItem(
+      CLAVE_PROGRESO,
+      JSON.stringify({
+        state: { resueltos: { loopi: { fecha: 5 } }, tutorialVisto: false },
+        version: 1,
+      }),
+    )
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+  })
+
   it('un progreso válido se carga igual que antes, sin aviso', async () => {
     localStorage.setItem(
       CLAVE_PROGRESO,

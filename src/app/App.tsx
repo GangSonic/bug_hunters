@@ -12,7 +12,7 @@ import { Confirmacion } from './capas/Confirmacion'
 import { Pausa } from './capas/Pausa'
 import { useNavegacion } from './navegacion/navegacionStore'
 import estilos from './App.module.css'
-
+import { AvisoProgresoDescartado } from '@/features/progreso'
 /** Alterna entre claro y oscuro según lo que se ve ahora, como el botón «Tema» original. */
 function useAlternarTema() {
   const tema = useConfiguracion((s) => s.tema)
@@ -119,7 +119,7 @@ export function App() {
       {capa === 'O4' && <Confirmacion onSalir={() => irA('P3')} onCancelar={cerrarCapa} />}
 
       {piloto && <BarraPiloto />}
-
+      <AvisoProgresoDescartado />
       <Aviso />
     </div>
   )
