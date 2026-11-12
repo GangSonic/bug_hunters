@@ -4,6 +4,7 @@ import { CLAVE_PROGRESO, useProgreso } from './store/progresoStore'
 describe('progreso', () => {
   beforeEach(() => {
     act(() => useProgreso.getState().reiniciar())
+    localStorage.clear()
   })
 
   it('CA13.1 guarda el caso resuelto con su fecha en el navegador', () => {
@@ -20,19 +21,61 @@ describe('progreso', () => {
     expect(useProgreso.getState().resueltos.loopi?.fecha).toBe(primera)
   })
 
-  it('CA13.3 con datos dañados arranca sin progreso y sin errores', async () => {
+  it('CA13.3 sin nada guardado arranca limpio y sin aviso', async () => {
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(false)
+  })
+
+  it('CA13.3 con datos dañados arranca sin progreso, avisa y borra el dato', async () => {
     localStorage.setItem(CLAVE_PROGRESO, '{esto no es json')
     await act(() => useProgreso.persist.rehydrate())
     expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+    expect(localStorage.getItem(CLAVE_PROGRESO)).toBeNull()
   })
 
-  it('CA13.3 con datos de otra versión del formato arranca sin progreso', async () => {
+  it('CA13.3 con datos de otra versión del formato arranca sin progreso y avisa', async () => {
     localStorage.setItem(
       CLAVE_PROGRESO,
       JSON.stringify({ state: { resueltos: { loopi: { fecha: 'x' } } }, version: 99 }),
     )
     await act(() => useProgreso.persist.rehydrate())
     expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+  })
+
+  it('CA13.3 con la versión correcta pero otra forma de datos, descarta y avisa', async () => {
+    localStorage.setItem(
+      CLAVE_PROGRESO,
+      JSON.stringify({ state: { resueltos: 5, tutorialVisto: 'si' }, version: 1 }),
+    )
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().resueltos).toEqual({})
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+  })
+
+  it('CA13.3 el aviso sale una sola vez', async () => {
+    localStorage.setItem(CLAVE_PROGRESO, '{esto no es json')
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().progresoDescartado).toBe(true)
+
+    act(() => useProgreso.getState().cerrarAvisoDescartado())
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().progresoDescartado).toBe(false)
+  })
+
+  it('un progreso válido se carga igual que antes, sin aviso', async () => {
+    localStorage.setItem(
+      CLAVE_PROGRESO,
+      JSON.stringify({
+        state: { resueltos: { loopi: { fecha: '2026-11-09T00:00:00.000Z' } }, tutorialVisto: true },
+        version: 1,
+      }),
+    )
+    await act(() => useProgreso.persist.rehydrate())
+    expect(useProgreso.getState().resueltos.loopi).toBeDefined()
+    expect(useProgreso.getState().progresoDescartado).toBe(false)
   })
 
   it('CA13.4 reiniciar borra los casos resueltos', () => {
