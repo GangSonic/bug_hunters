@@ -330,3 +330,20 @@
   margin-top: 8px;
   width: 100%;
 }
+
+/* Tutorial: aro que señala la parte de la pantalla del paso actual. */
+.misBody[data-zona-activa='escena'] [data-zona='escena'],
+.misBody[data-zona-activa='causa'] [data-zona='causa'],
+.misBody[data-zona-activa='correccion'] [data-zona='correccion'],
+.misBody[data-zona-activa='probar'] [data-zona='probar'] {
+  outline: 3px solid var(--purple);
+  outline-offset: 3px;
+  border-radius: 12px;
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--purple) 22%, transparent);
+  animation: aroLatido 1.8s ease-in-out infinite;
+}
+@keyframes aroLatido {
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--purple) 22%, transparent);
+  }
+}

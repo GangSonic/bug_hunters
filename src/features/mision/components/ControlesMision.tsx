@@ -23,7 +23,7 @@ export function ControlesMision({
   onPista,
 }: Props) {
   return (
-    <div className={estilos.controls}>
+    <div className={estilos.controls} data-zona="probar">
       <Boton variante="primario" icono="jugar" onClick={onProbar} disabled={probarDeshabilitado}>
         {probarOtraVez ? 'Probar otra vez' : 'Probar'}
       </Boton>

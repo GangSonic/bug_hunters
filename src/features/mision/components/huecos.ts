@@ -13,6 +13,9 @@ export type SalidaMision = {
   edicionSinProbar: boolean
 }
 
+/** Parte de la pantalla de misión que el tutorial puede resaltar con un aro. */
+export type ZonaTutorial = 'escena' | 'causa' | 'correccion' | 'probar'
+
 /** Qué recibe el tutorial (HU16, CA04.3). Ocupa el lugar de la barra de resultado antes de la primera prueba. */
 export type ContextoTutorial = {
   caso: Expediente
@@ -25,6 +28,8 @@ export type ContextoTutorial = {
   omitirObservacion: () => void
   /** Pasa de E1 a E2. No marca el tutorial como visto: eso lo decide quien lo muestra. */
   terminarObservacion: () => void
+  /** Resalta una parte de la pantalla; `null` quita el aro. El tutorial lo apaga al desmontarse. */
+  enfocar: (zona: ZonaTutorial | null) => void
 }
 
 /** Qué recibe la recuperación (HU08, CA08.1). Ocupa el lugar del botón Continuar en E5a. */

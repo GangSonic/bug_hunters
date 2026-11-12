@@ -1,15 +1,51 @@
-.barra {
+.guia {
+  margin-top: 8px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
-  padding: 10px 12px;
-  border-radius: 11px;
-  border: 1px solid var(--line);
-  background: var(--purple-bg);
   color: var(--ink);
 }
-.contenido {
+.loopi {
+  flex: 0 0 auto;
+  width: 72px;
+  height: auto;
+  image-rendering: pixelated;
+  animation: loopiSalta 2.4s ease-in-out infinite;
+}
+@keyframes loopiSalta {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@media (max-width: 480px) {
+  .loopi {
+    width: 52px;
+  }
+}
+.globo {
+  position: relative;
+  flex: 1;
   min-width: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line-2);
+  background: var(--purple-bg);
+}
+.globo::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 28px;
+  width: 12px;
+  height: 12px;
+  background: var(--purple-bg);
+  border-left: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+  transform: rotate(45deg);
 }
 .titulo {
   margin: 0;

@@ -15,7 +15,7 @@ type Props = {
 export function BarraReparacion({ caso, mision, despachar, habilitada }: Props) {
   const elegida = caso.opciones.find((o) => o.id === mision.opcionId)
   return (
-    <section className={estilos.repair} aria-labelledby="titulo-reparar">
+    <section className={estilos.repair} aria-labelledby="titulo-reparar" data-zona="correccion">
       <h2 id="titulo-reparar">
         <Icono nombre="llave" /> 2. {caso.preguntaReparacion}
       </h2>

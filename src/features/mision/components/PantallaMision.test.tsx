@@ -86,6 +86,30 @@ describe('PantallaMision: huecos para otras features', () => {
     expect(renderTutorial.mock.calls[0]?.[0]).toMatchObject({ estado: 'E1', primeraVez: true })
   })
 
+  it('renderTutorial puede señalar una parte de la pantalla con el aro', async () => {
+    const renderTutorial = vi.fn(({ enfocar, terminarObservacion }) => (
+      <>
+        <button type="button" onClick={() => enfocar('causa')}>
+          Señalar causa
+        </button>
+        <button type="button" onClick={terminarObservacion}>
+          Seguir
+        </button>
+      </>
+    ))
+    const { usuario } = montar({ renderTutorial })
+    const cuerpo = () => document.querySelector('[data-zona-activa]')
+
+    expect(cuerpo()).toBeNull()
+    await usuario.click(screen.getByRole('button', { name: 'Señalar causa' }))
+    expect(cuerpo()?.getAttribute('data-zona-activa')).toBe('causa')
+    // La zona señalada existe en la pantalla.
+    expect(cuerpo()?.querySelector('[data-zona="causa"]')).not.toBeNull()
+    for (const zona of ['escena', 'correccion', 'probar']) {
+      expect(cuerpo()?.querySelector(`[data-zona="${zona}"]`)).not.toBeNull()
+    }
+  })
+
   it('renderTutorial deja de mostrarse después de la primera prueba', async () => {
     const renderTutorial = vi.fn(({ estado, terminarObservacion }) => (
       <button type="button" onClick={terminarObservacion}>

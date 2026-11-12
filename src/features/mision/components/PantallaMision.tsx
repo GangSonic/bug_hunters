@@ -8,7 +8,7 @@ import { AvisoMision } from './AvisoMision'
 import { BarraReparacion } from './BarraReparacion'
 import { ControlesMision } from './ControlesMision'
 import { ListaPistas } from './ListaPistas'
-import type { ContextoRecuperacion, ContextoTutorial, SalidaMision } from './huecos'
+import type { ContextoRecuperacion, ContextoTutorial, SalidaMision, ZonaTutorial } from './huecos'
 import { PanelInvestiga } from './PanelInvestiga'
 import estilos from './PantallaMision.module.css'
 
@@ -54,6 +54,8 @@ export function PantallaMision({
   const tutorialVisto = useProgreso((s) => s.tutorialVisto)
   const marcarTutorialVisto = useProgreso((s) => s.marcarTutorialVisto)
   const [error, setError] = useState('')
+  // Parte de la pantalla que el tutorial está señalando con el aro (la decide `renderTutorial`).
+  const [zonaTutorial, setZonaTutorial] = useState<ZonaTutorial | null>(null)
   // Solo para el texto del botón: se apaga al reiniciar, cuando la ronda empieza de nuevo.
   const [yaProbo, setYaProbo] = useState(false)
   const contadores = pasosMostrados.at(-1)?.contadores ?? {}
@@ -113,7 +115,7 @@ export function PantallaMision({
         </Boton>
       }
     >
-      <div className={estilos.misBody}>
+      <div className={estilos.misBody} data-zona-activa={zonaTutorial ?? undefined}>
         <div className={estilos.counters}>
           {caso.contadores.map((c) => (
             <div key={c.id} className={estilos.ctr}>
@@ -127,7 +129,7 @@ export function PantallaMision({
         </div>
 
         <div className={estilos.misGrid}>
-          <div className={estilos.stage}>
+          <div className={estilos.stage} data-zona="escena">
             <InsigniaEstado
               estado={estadoEjecucion}
               iconoError={iconoError}
@@ -181,6 +183,7 @@ export function PantallaMision({
             primeraVez: !tutorialVisto,
             omitirObservacion,
             terminarObservacion: () => despachar({ tipo: 'OBSERVACION_TERMINADA' }),
+            enfocar: setZonaTutorial,
           })
         ) : (
           <AvisoMision
