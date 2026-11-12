@@ -1,6 +1,6 @@
 import type { Dispatch } from 'react'
 import type { Expediente } from '@/features/expedientes'
-import { Icono } from '@/shared'
+import { flechasEnGrupo, Icono } from '@/shared'
 import type { EstadoMision, Evento } from '../logic/maquinaEstados'
 import estilos from './PantallaMision.module.css'
 
@@ -26,7 +26,12 @@ export function BarraReparacion({ caso, mision, despachar, habilitada }: Props) 
           ( {elegida?.texto ?? '…'} )
         </span>
       </div>
-      <div className={estilos.opts} role="group" aria-labelledby="titulo-reparar">
+      <div
+        className={estilos.opts}
+        role="group"
+        aria-labelledby="titulo-reparar"
+        onKeyDown={flechasEnGrupo}
+      >
         {caso.opciones.map((opcion) => (
           <button
             key={opcion.id}

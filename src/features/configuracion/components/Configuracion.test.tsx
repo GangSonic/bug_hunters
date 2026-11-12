@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useProgreso } from '@/features/progreso'
 import { useAvisos } from '@/shared'
@@ -79,5 +79,22 @@ describe('Configuración · reiniciar progreso (CA17.4)', () => {
     expect(useProgreso.getState().resueltos).toEqual({})
     expect(useAvisos.getState().mensaje).toBe('Progreso reiniciado.')
     expect(screen.getByText('Casos resueltos: 0 de 4')).toBeInTheDocument()
+  })
+})
+
+describe('Configuración · flechas entre los temas (RNF02)', () => {
+  it('las flechas mueven el foco entre Claro, Oscuro y Auto, y Intro elige', async () => {
+    const { usuario } = montar()
+    const grupo = screen.getByRole('group', { name: 'Tema' })
+    const claro = within(grupo).getByRole('button', { name: 'Claro' })
+    const oscuro = within(grupo).getByRole('button', { name: 'Oscuro' })
+
+    claro.focus()
+    await usuario.keyboard('{ArrowRight}')
+    expect(oscuro).toHaveFocus()
+    expect(oscuro).toHaveAttribute('aria-pressed', 'false')
+
+    await usuario.keyboard('{Enter}')
+    expect(oscuro).toHaveAttribute('aria-pressed', 'true')
   })
 })
