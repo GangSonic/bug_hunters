@@ -38,7 +38,7 @@ export function PanelInvestiga({ caso, mision, despachar, bloqueado, error, resu
   const opcionTexto = caso.opciones.find((o) => o.id === mision.opcionId)?.texto
 
   return (
-    <section className={estilos.analiza} aria-labelledby="titulo-investiga">
+    <section className={estilos.analiza} aria-labelledby="titulo-investiga" data-zona="causa">
       <h2 id="titulo-investiga">
         <Icono nombre="lupa" /> Investiga
       </h2>

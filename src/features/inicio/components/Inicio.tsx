@@ -5,13 +5,15 @@ import estilos from './Inicio.module.css'
 
 type Props = {
   onJugar: () => void
+  /** Abre el tutorial animado. */
+  onTutorial: () => void
   onConfiguracion: () => void
 }
 
 type Vista = 'portada' | 'confirmarSalida' | 'despedida'
 
 /** P1 Inicio, con la confirmación de Salir y la despedida (HU02). */
-export function Inicio({ onJugar, onConfiguracion }: Props) {
+export function Inicio({ onJugar, onTutorial, onConfiguracion }: Props) {
   const resueltos = useCantidadResueltos()
   const [vista, setVista] = useState<Vista>('portada')
   const jugarRef = useRef<HTMLButtonElement>(null)
@@ -81,6 +83,9 @@ export function Inicio({ onJugar, onConfiguracion }: Props) {
               onClick={onJugar}
             >
               <Icono nombre="jugar" /> Jugar
+            </button>
+            <button type="button" className={estilos.mbtn} onClick={onTutorial}>
+              <Icono nombre="video" /> Tutorial
             </button>
             <button type="button" className={estilos.mbtn} onClick={onConfiguracion}>
               <Icono nombre="engrane" /> Configuración

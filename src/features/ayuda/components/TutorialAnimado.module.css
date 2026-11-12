@@ -1,0 +1,433 @@
+/* O5 Tutorial animado. Las animaciones solo usan `from`: sin ellas (animaciones apagadas o
+   movimiento reducido) cada escena queda en su estado final, que ya se lee completo. */
+.cuerpo {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.escenario {
+  position: relative;
+  height: 240px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--stage);
+  overflow: hidden;
+}
+.dibujo {
+  position: absolute;
+  inset: 0;
+}
+.sprite {
+  position: absolute;
+  image-rendering: pixelated;
+  width: auto;
+}
+
+/* Riel con las comandas, como en la escena del juego. */
+.riel {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.riel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--stage-line);
+}
+.comanda {
+  position: relative;
+  justify-self: center;
+  margin-top: 4px;
+  width: 38px;
+  height: 42px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 2px solid var(--stage-line);
+  border-radius: 5px 5px 2px 2px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+  animation: comandaEntra 0.5s var(--d, 0s) both;
+}
+.comanda::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 6px;
+  background: var(--ink-2);
+}
+.hecha {
+  background: var(--ok-bg);
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.ausente {
+  border-style: dashed;
+  border-color: var(--err);
+  background: var(--err-bg);
+  color: var(--err);
+  font-size: 1.2rem;
+  animation:
+    comandaEntra 0.5s var(--d, 0s) both,
+    sacude 0.5s 1.6s 3;
+}
+@keyframes comandaEntra {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+@keyframes sacude {
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+.mesa {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 44px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--cafe);
+  border-top: 2px solid color-mix(in srgb, var(--cafe) 60%, white);
+}
+
+/* Personajes. Las columnas de Nullito coinciden con las de las comandas. */
+.loopiGrande {
+  height: 170px;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  animation: flota 3s ease-in-out infinite;
+}
+.loopiChico {
+  height: 74px;
+  right: 12px;
+  bottom: 53px;
+  animation: flota 3s ease-in-out infinite;
+}
+.nullitoEntra,
+.nullitoAtascado,
+.nullitoFeliz {
+  height: 92px;
+  bottom: 53px;
+  transform: translateX(-50%);
+}
+.nullitoEntra {
+  left: calc(10px + (100% - 20px) * 0.375);
+  animation: llega 1.2s ease-out both;
+}
+.nullitoAtascado {
+  left: calc(10px + (100% - 20px) * 0.625);
+  animation: tiembla 0.4s 1.4s 4;
+}
+.nullitoFeliz {
+  left: calc(10px + (100% - 20px) * 0.625);
+  animation: salta 0.6s 1.6s 3;
+}
+@keyframes flota {
+  50% {
+    translate: 0 -6px;
+  }
+}
+@keyframes llega {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-50% - 120px));
+  }
+}
+@keyframes tiembla {
+  25% {
+    rotate: -3deg;
+  }
+  75% {
+    rotate: 3deg;
+  }
+}
+@keyframes salta {
+  50% {
+    translate: 0 -14px;
+  }
+}
+.interrogante {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--purple-texto);
+  opacity: 0.5;
+  animation: flota 2.4s ease-in-out infinite;
+}
+.i1 {
+  left: 18%;
+  top: 22%;
+  font-size: 1.6rem;
+}
+.i2 {
+  right: 20%;
+  top: 14%;
+  font-size: 2.2rem;
+  animation-delay: 0.6s;
+}
+.i3 {
+  left: 28%;
+  bottom: 16%;
+  font-size: 1.3rem;
+  animation-delay: 1.1s;
+}
+.contador {
+  position: absolute;
+  left: calc(10px + (100% - 20px) * 0.625 + 34px);
+  bottom: 56px;
+  padding: 1px 8px;
+  border-radius: 7px;
+  border: 2px solid var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.etiqueta {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.72rem;
+}
+.detenido {
+  background: var(--err-bg);
+  color: var(--err);
+  border: 1px solid var(--err);
+}
+.resuelto {
+  background: var(--ok-bg);
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  animation: comandaEntra 0.5s 1.2s both;
+}
+.ficha {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--purple);
+  color: var(--purple-deep);
+  font-weight: 800;
+  font-size: 0.74rem;
+  animation: comandaEntra 0.5s 2.4s both;
+}
+
+/* Escenas 4 y 5: las mismas partes que ve el jugador en la misión. */
+.formulario {
+  position: absolute;
+  left: 12px;
+  right: 104px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.campo {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-2);
+}
+.campo b {
+  color: var(--purple-texto);
+}
+.selector {
+  display: block;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 2px solid var(--purple);
+  background: var(--surface);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.resaltado {
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--purple) 22%, transparent);
+  animation: resalta 1.8s ease-in-out infinite;
+}
+@keyframes resalta {
+  50% {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--purple) 22%, transparent);
+  }
+}
+.opcion {
+  display: block;
+  padding: 7px 11px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-2);
+  background: var(--surface);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  color: var(--ink-2);
+}
+.elegida {
+  border: 2px solid var(--purple);
+  background: var(--purple-bg);
+  color: var(--ink);
+  font-weight: 700;
+  animation: elige 0.5s 1.5s both;
+}
+@keyframes elige {
+  from {
+    border: 1.5px solid var(--line-2);
+    background: var(--surface);
+    color: var(--ink-2);
+    font-weight: 400;
+  }
+}
+.probar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  border-radius: 10px;
+  background: var(--cta);
+  color: var(--cta-texto);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  animation:
+    probarAparece 0.4s 3s both,
+    probarPulsa 0.9s 3.4s 3;
+}
+@keyframes probarAparece {
+  from {
+    opacity: 0.3;
+  }
+}
+@keyframes probarPulsa {
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Subtítulos y controles. */
+.subtitulos {
+  min-height: 92px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line-2);
+  background: var(--purple-bg);
+}
+.escenaTitulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.escenaTexto {
+  margin: 3px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.puntos {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.punto {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.punto::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--stage-line);
+  transition: 0.15s;
+}
+.puntoActivo::before {
+  inset: 6px;
+  background: var(--purple);
+}
+.punto:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+  border-radius: 8px;
+}
+.final {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .escenario {
+    height: 250px;
+  }
+  .formulario {
+    right: 70px;
+  }
+  .loopiChico {
+    height: 58px;
+  }
+  .comanda {
+    width: 32px;
+    height: 38px;
+  }
+  .nullitoEntra,
+  .nullitoAtascado,
+  .nullitoFeliz {
+    height: 76px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .escenario * {
+    animation: none !important;
+  }
+}

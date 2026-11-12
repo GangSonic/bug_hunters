@@ -29,6 +29,7 @@ export const CAPAS = {
   O2: 'Ayuda',
   O3: 'Configuración',
   O4: 'Confirmación',
+  O5: 'Tutorial animado',
 } as const
 
 export type CapaId = keyof typeof CAPAS

@@ -61,6 +61,12 @@ const TRAZOS = {
       <path d="M21 21l-4-4" />
     </>
   ),
+  video: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="3" />
+      <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none" />
+    </>
+  ),
   ojo: (
     <>
       <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
