@@ -9,6 +9,8 @@ type Props = PropsEscena & {
   elementos: string[]
   /** Texto del contador que la criatura lleva encima. */
   contadorPecho: (contadores: Record<string, number>) => string
+  /** Centro, en % del sprite, de la pantalla dibujada en la criatura, donde se muestra el contador. */
+  pantalla: { izquierda: number; arriba: number }
   /** Describe cada efecto para el lector de pantalla. */
   describir?: Partial<Record<EfectoPaso, string>>
 }
@@ -44,6 +46,7 @@ export function EscenaBanda({
   etiquetaDestino,
   elementos,
   contadorPecho,
+  pantalla,
   describir,
 }: Props) {
   const efectos = new Map<number, EfectoPaso>()
@@ -74,7 +77,11 @@ export function EscenaBanda({
           .join(' ')}
       >
         <img src={rutaPublica(sprite)} alt={criatura} />
-        <span className={estilos.contador} aria-hidden="true">
+        <span
+          className={estilos.contadorPantalla}
+          style={{ left: `${pantalla.izquierda}%`, top: `${pantalla.arriba}%` }}
+          aria-hidden="true"
+        >
           {contadorPecho(contadores)}
         </span>
       </div>

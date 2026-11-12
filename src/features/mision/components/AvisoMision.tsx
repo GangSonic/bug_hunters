@@ -86,11 +86,6 @@ function Contenido({
             instrucciones.
           </p>
         )}
-        {ultimo.desenlace === 'correcto' && (
-          <div className={estilos.concepto}>
-            <strong>Concepto:</strong> {caso.concepto}.
-          </div>
-        )}
       </div>
     </div>
   )

@@ -21,7 +21,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 2.3rem;
-  color: var(--purple);
+  color: var(--purple-texto);
   line-height: 0.95;
 }
 .logo span {
@@ -78,7 +78,7 @@
 .play {
   background: var(--cta);
   border-color: var(--cta);
-  color: #fff;
+  color: var(--cta-texto);
   font-size: 1.08rem;
 }
 .play:hover {
@@ -120,53 +120,7 @@
   position: absolute;
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--purple);
+  color: var(--purple-texto);
   opacity: 0.5;
   z-index: 1;
-}
-
-/* Salir */
-.salirBody {
-  padding: 36px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-}
-.salirIco {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--purple-bg);
-  color: var(--purple-deep);
-  display: grid;
-  place-items: center;
-}
-.salirIco svg {
-  width: 28px;
-  height: 28px;
-}
-.salirTitulo {
-  font-size: 1.4rem;
-}
-.salirTitulo:focus {
-  outline: none;
-}
-.salirBody p {
-  font-size: 0.86rem;
-  color: var(--ink-2);
-  max-width: 360px;
-  margin: 0;
-}
-.salirActions {
-  display: flex;
-  gap: 8px;
-  margin-top: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.salirActions > button {
-  min-width: 130px;
-  flex: 0 0 auto;
 }

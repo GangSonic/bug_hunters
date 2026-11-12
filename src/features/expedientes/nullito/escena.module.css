@@ -1,0 +1,236 @@
+/* Escena propia de Nullito: cafetería con comandas colgadas de un riel (HU11, D-03). */
+.area {
+  height: 180px;
+  position: relative;
+}
+
+/* Riel: cuatro columnas iguales; Nullito usa las mismas para ponerse bajo cada comanda. */
+.riel {
+  position: absolute;
+  left: 10px;
+  right: 48px;
+  top: 28px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 1;
+}
+.riel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--stage-line);
+}
+.comanda {
+  position: relative;
+  justify-self: center;
+  margin-top: 4px;
+  width: 34px;
+  height: 38px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 2px solid var(--stage-line);
+  border-radius: 5px 5px 2px 2px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1;
+  transition: 0.25s;
+}
+/* Gancho que la sujeta al riel. */
+.comanda::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 6px;
+  background: var(--ink-2);
+}
+.comanda svg {
+  width: 12px;
+  height: 12px;
+}
+/* El pedido que no existe: punteado y con un símbolo grande, no solo otro color. */
+.ausente {
+  border-style: dashed;
+}
+.ausente .etiqueta {
+  font-size: 1.15rem;
+}
+.ok {
+  background: var(--ok-bg);
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.aviso {
+  background: var(--amber-bg);
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.fallo {
+  background: var(--err-bg);
+  border-color: var(--err);
+  color: var(--err);
+}
+.omitido {
+  opacity: 0.6;
+}
+
+.cocina {
+  position: absolute;
+  right: 0;
+  top: 84px;
+  bottom: 36px;
+  width: 34px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 2px solid var(--stage-line);
+  border-radius: 8px;
+  background: var(--stage-2);
+  color: var(--cta);
+  z-index: 1;
+}
+.cocina svg {
+  width: 16px;
+  height: 16px;
+}
+.cocinaOk {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.cocinaFallo {
+  border-color: var(--err);
+  background: var(--err-bg);
+  color: var(--err);
+}
+.etiquetaCocina {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+
+/* Pista de Nullito: mismas columnas que el riel. */
+.pista {
+  position: absolute;
+  left: 10px;
+  right: 48px;
+  bottom: 26px;
+  height: 76px;
+  z-index: 3;
+}
+.criatura {
+  position: absolute;
+  bottom: 0;
+  width: 72px;
+  transform: translateX(-50%);
+  transition: left 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+.criatura img {
+  display: block;
+  width: 100%;
+}
+.walking {
+  animation: bob 0.5s ease-in-out infinite;
+}
+.dizzy {
+  animation: shake 0.24s ease-in-out infinite;
+}
+.happy {
+  animation: hop 0.55s ease-in-out infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1.5deg);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(-2px) rotate(-2.5deg);
+  }
+  50% {
+    transform: translateX(2px) rotate(2.5deg);
+  }
+}
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .criatura,
+  .criatura * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.contador {
+  position: absolute;
+  left: calc(100% - 6px);
+  bottom: 4px;
+  background: #0d2a22;
+  border: 2px solid #0f6e56;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: #7cf0c0;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+/* Al llegar a la última comanda no hay sitio a la derecha, junto a la cocina. */
+.contadorIzquierda {
+  left: auto;
+  right: calc(100% - 6px);
+}
+
+.barra {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  height: 18px;
+  box-sizing: border-box;
+  background: var(--cafe);
+  border-top: 3px solid #8a5e2e;
+  border-bottom: 3px solid #8a5e2e;
+  z-index: 2;
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

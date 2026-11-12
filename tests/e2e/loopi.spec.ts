@@ -41,9 +41,9 @@ test('Loopi de principio a fin: intento incompleto, solución, explicación y fi
     page.getByText('El reparto se detuvo, pero quedan 2 paquetes pendientes'),
   ).toBeVisible()
 
-  // Pista graduada (aviso flotante).
+  // Pista graduada: queda visible bajo los botones.
   await page.getByRole('button', { name: 'Pista' }).click()
-  await expect(page.getByText(/^Pista 1\/3:/)).toBeVisible()
+  await expect(page.getByRole('list', { name: 'Pistas' })).toContainText('Pista 1 de 3:')
 
   // Solución (E5a).
   await page.getByRole('button', { name: 'Hay paquetes pendientes' }).click()
@@ -85,6 +85,18 @@ test('Configuración se abre y vuelve al inicio', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-tema', 'oscuro')
   await page.getByRole('button', { name: 'Inicio' }).click()
   await expect(page.getByRole('button', { name: 'Jugar' })).toBeVisible()
+})
+
+test('Reiniciar el progreso pide confirmación y se puede cancelar', async ({ page }) => {
+  await abrirSinAnimaciones(page)
+  await page.getByRole('button', { name: 'Configuración' }).click()
+  await page.getByRole('button', { name: 'Reiniciar' }).click()
+  await expect(page.getByRole('heading', { name: '¿Reiniciar el progreso?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Cancelar' }).click()
+  await expect(page.getByRole('heading', { name: 'Configuración' })).toBeVisible()
+  await page.getByRole('button', { name: 'Reiniciar' }).click()
+  await page.getByRole('button', { name: 'Sí, reiniciar' }).click()
+  await expect(page.getByText('Progreso reiniciado.')).toBeVisible()
 })
 
 test('Salir pide confirmación y muestra la despedida', async ({ page }) => {

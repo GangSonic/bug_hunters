@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from 'react'
 import { useCantidadResueltos, useProgreso } from '@/features/progreso'
-import { Boton, Marco, mostrarAviso } from '@/shared'
+import { Boton, flechasEnGrupo, Marco, MensajeCentrado, mostrarAviso, useTecla } from '@/shared'
 import { useConfiguracion, type Tema } from '../store/configuracionStore'
 import estilos from './Configuracion.module.css'
 
@@ -14,6 +15,43 @@ export function Configuracion({ onCerrar }: { onCerrar: () => void }) {
   const { tema, animaciones, cambiarTema, cambiarAnimaciones } = useConfiguracion()
   const resueltos = useCantidadResueltos()
   const reiniciarProgreso = useProgreso((s) => s.reiniciar)
+  const [confirmando, setConfirmando] = useState(false)
+
+  // Al cerrar la confirmación, el foco vuelve a Reiniciar (no al inicio de la página).
+  const yaConfirmo = useRef(false)
+  useEffect(() => {
+    if (confirmando) yaConfirmo.current = true
+    else if (yaConfirmo.current) document.getElementById('cfg-reiniciar')?.focus()
+  }, [confirmando])
+
+  useTecla('Escape', () => setConfirmando(false), confirmando)
+
+  const alConfirmar = () => {
+    reiniciarProgreso()
+    setConfirmando(false)
+    mostrarAviso('Progreso reiniciado.')
+  }
+
+  if (confirmando) {
+    return (
+      <Marco>
+        <MensajeCentrado
+          icono="reiniciar"
+          titulo="¿Reiniciar el progreso?"
+          acciones={
+            <>
+              <Boton variante="primario" onClick={alConfirmar}>
+                Sí, reiniciar
+              </Boton>
+              <Boton onClick={() => setConfirmando(false)}>Cancelar</Boton>
+            </>
+          }
+        >
+          {textoDeAdvertencia(resueltos)}
+        </MensajeCentrado>
+      </Marco>
+    )
+  }
 
   return (
     <Marco
@@ -32,7 +70,12 @@ export function Configuracion({ onCerrar }: { onCerrar: () => void }) {
             </div>
             <div className={estilos.cfgD}>Apariencia del juego</div>
           </div>
-          <div className={estilos.seg} role="group" aria-labelledby="cfg-tema">
+          <div
+            className={estilos.seg}
+            role="group"
+            aria-labelledby="cfg-tema"
+            onKeyDown={flechasEnGrupo}
+          >
             {TEMAS.map((t) => (
               <button
                 key={t.id}
@@ -71,11 +114,9 @@ export function Configuracion({ onCerrar }: { onCerrar: () => void }) {
             <div className={estilos.cfgD}>Casos resueltos: {resueltos} de 4</div>
           </div>
           <Boton
+            id="cfg-reiniciar"
             className={estilos.reiniciar}
-            onClick={() => {
-              reiniciarProgreso()
-              mostrarAviso('Progreso reiniciado.')
-            }}
+            onClick={() => setConfirmando(true)}
           >
             Reiniciar
           </Boton>
@@ -83,4 +124,11 @@ export function Configuracion({ onCerrar }: { onCerrar: () => void }) {
       </div>
     </Marco>
   )
+}
+
+function textoDeAdvertencia(resueltos: number) {
+  if (resueltos === 0) return 'Todavía no tienes casos resueltos, así que no se perderá nada.'
+  const perdida =
+    resueltos === 1 ? 'Se borrará tu caso resuelto' : `Se borrarán tus ${resueltos} casos resueltos`
+  return `${perdida}. Esta acción no se puede deshacer.`
 }

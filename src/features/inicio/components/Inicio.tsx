@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCantidadResueltos } from '@/features/progreso'
-import { Boton, Icono, Marco, rutaPublica } from '@/shared'
+import { Boton, Icono, Marco, MensajeCentrado, rutaPublica } from '@/shared'
 import estilos from './Inicio.module.css'
 
 type Props = {
@@ -14,23 +14,30 @@ type Vista = 'portada' | 'confirmarSalida' | 'despedida'
 export function Inicio({ onJugar, onConfiguracion }: Props) {
   const resueltos = useCantidadResueltos()
   const [vista, setVista] = useState<Vista>('portada')
+  const jugarRef = useRef<HTMLButtonElement>(null)
+
+  // CA02.1: Jugar recibe el foco al abrir y cada vez que se vuelve a la portada.
+  useEffect(() => {
+    if (vista === 'portada') jugarRef.current?.focus()
+  }, [vista])
 
   if (vista === 'confirmarSalida') {
     return (
       <Marco>
-        <div className={estilos.salirBody}>
-          <div className={estilos.salirIco} aria-hidden="true">
-            <Icono nombre="salir" />
-          </div>
-          <TituloEnfocado>¿Salir del laboratorio?</TituloEnfocado>
-          <p>Tu progreso queda guardado en este navegador; puedes volver cuando quieras.</p>
-          <div className={estilos.salirActions}>
-            <Boton variante="primario" onClick={() => setVista('despedida')}>
-              Salir
-            </Boton>
-            <Boton onClick={() => setVista('portada')}>Seguir jugando</Boton>
-          </div>
-        </div>
+        <MensajeCentrado
+          icono="salir"
+          titulo="¿Salir del laboratorio?"
+          acciones={
+            <>
+              <Boton variante="primario" onClick={() => setVista('despedida')}>
+                Salir
+              </Boton>
+              <Boton onClick={() => setVista('portada')}>Seguir jugando</Boton>
+            </>
+          }
+        >
+          Tu progreso queda guardado en este navegador; puedes volver cuando quieras.
+        </MensajeCentrado>
       </Marco>
     )
   }
@@ -38,22 +45,17 @@ export function Inicio({ onJugar, onConfiguracion }: Props) {
   if (vista === 'despedida') {
     return (
       <Marco>
-        <div className={estilos.salirBody}>
-          <div className={estilos.salirIco} aria-hidden="true">
-            <Icono nombre="check" />
-          </div>
-          <TituloEnfocado>¡Gracias por jugar!</TituloEnfocado>
-          <p>
-            Cerraste el laboratorio. Ya puedes cerrar la pestaña, o volver a empezar cuando quieras.
-          </p>
-          <Boton
-            variante="primario"
-            onClick={() => setVista('portada')}
-            style={{ maxWidth: 220, margin: '0 auto' }}
-          >
-            Volver al inicio
-          </Boton>
-        </div>
+        <MensajeCentrado
+          icono="check"
+          titulo="¡Gracias por jugar!"
+          acciones={
+            <Boton variante="primario" onClick={() => setVista('portada')}>
+              Volver al inicio
+            </Boton>
+          }
+        >
+          Cerraste el laboratorio. Ya puedes cerrar la pestaña, o volver a empezar cuando quieras.
+        </MensajeCentrado>
       </Marco>
     )
   }
@@ -72,12 +74,11 @@ export function Inicio({ onJugar, onConfiguracion }: Props) {
           </p>
           <p className={estilos.tag}>Cada error es un misterio.</p>
           <div className={estilos.menu}>
-            {/* oxlint-disable-next-line jsx-a11y/no-autofocus -- CA02.1: Jugar recibe el foco al abrir */}
             <button
+              ref={jugarRef}
               type="button"
               className={`${estilos.mbtn} ${estilos.play}`}
               onClick={onJugar}
-              autoFocus
             >
               <Icono nombre="jugar" /> Jugar
             </button>
@@ -110,16 +111,5 @@ export function Inicio({ onJugar, onConfiguracion }: Props) {
         </div>
       </div>
     </Marco>
-  )
-}
-
-/** Título de la vista de Salir que recibe el foco al aparecer. */
-function TituloEnfocado({ children }: { children: string }) {
-  const ref = useRef<HTMLHeadingElement>(null)
-  useEffect(() => ref.current?.focus(), [children])
-  return (
-    <h1 ref={ref} tabIndex={-1} className={estilos.salirTitulo}>
-      {children}
-    </h1>
   )
 }

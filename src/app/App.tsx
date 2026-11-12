@@ -1,13 +1,18 @@
+import { useState } from 'react'
+import { Ayuda, Tutorial } from '@/features/ayuda'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
-import { PantallaMision, Presentacion } from '@/features/mision'
-import { Resultado } from '@/features/resultado'
+import { PantallaMision, Presentacion, type SalidaMision } from '@/features/mision'
+import { BarraPiloto, esPilotoActivo } from '@/features/piloto'
+import { Recuperacion, Resultado } from '@/features/resultado'
 import { Seleccion } from '@/features/seleccion'
 import { Aviso } from '@/shared'
+import { Confirmacion } from './capas/Confirmacion'
+import { Pausa } from './capas/Pausa'
 import { useNavegacion } from './navegacion/navegacionStore'
 import estilos from './App.module.css'
-
+import { AvisoProgresoDescartado } from '@/features/progreso'
 /** Alterna entre claro y oscuro según lo que se ve ahora, como el botón «Tema» original. */
 function useAlternarTema() {
   const tema = useConfiguracion((s) => s.tema)
@@ -27,6 +32,22 @@ export function App() {
   useAplicarConfiguracion()
   const alternarTema = useAlternarTema()
   const { pantalla, casoId, capa, irA, abrirCapa, cerrarCapa } = useNavegacion()
+  // HU18: la barra del piloto solo aparece con ?piloto=1 en la URL.
+  const [piloto] = useState(esPilotoActivo)
+  // HU15: recuerda si la misión tiene una corrección sin probar, para decidir si salir
+  // directo o pedir confirmación (O4), tanto desde «Volver» como desde la pausa (O1).
+  const [edicionSinProbar, setEdicionSinProbar] = useState(false)
+
+  const salirDeMision = (salida: SalidaMision) => {
+    if (salida.edicionSinProbar) {
+      setEdicionSinProbar(true)
+      abrirCapa('O4')
+    } else {
+      irA('P3')
+    }
+  }
+
+  const salirDesdePausa = () => (edicionSinProbar ? abrirCapa('O4') : irA('P3'))
 
   return (
     <div className={estilos.wrap}>
@@ -70,7 +91,16 @@ export function App() {
                 key={casoId}
                 casoId={casoId}
                 onResuelto={() => irA('P6')}
-                onVolver={() => irA('P3')}
+                onVolver={salirDeMision}
+                onPausa={(salida) => {
+                  // Con una capa abierta, Esc es de esa capa: no debe abrir además la pausa.
+                  if (capa !== null) return
+                  setEdicionSinProbar(salida.edicionSinProbar)
+                  abrirCapa('O1')
+                }}
+                onAyuda={() => abrirCapa('O2')}
+                renderTutorial={(contexto) => <Tutorial {...contexto} />}
+                renderRecuperacion={(contexto) => <Recuperacion {...contexto} />}
               />
             )}
             {pantalla === 'P6' && (
@@ -86,6 +116,12 @@ export function App() {
         )}
       </main>
 
+      {capa === 'O1' && <Pausa onReanudar={cerrarCapa} onSalir={salirDesdePausa} />}
+      {capa === 'O2' && <Ayuda onCerrar={cerrarCapa} />}
+      {capa === 'O4' && <Confirmacion onSalir={() => irA('P3')} onCancelar={cerrarCapa} />}
+
+      {piloto && <BarraPiloto />}
+      <AvisoProgresoDescartado />
       <Aviso />
     </div>
   )

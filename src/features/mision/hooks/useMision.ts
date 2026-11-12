@@ -7,6 +7,7 @@ import {
   type PasoSimulacion,
   type ResultadoSimulacion,
 } from '@/features/expedientes'
+import { esPilotoActivo, usePiloto } from '@/features/piloto'
 import { useProgreso } from '@/features/progreso'
 import { useMovimientoReducido, type EstadoEjecucion } from '@/shared'
 import { ESTADO_INICIAL, transicion } from '../logic/maquinaEstados'
@@ -47,6 +48,7 @@ export function useMision(expediente: Expediente) {
   const animacionesConfig = useConfiguracion((s) => s.animaciones)
   const movimientoReducido = useMovimientoReducido()
   const marcarResuelto = useProgreso((s) => s.marcarResuelto)
+  const registrarPiloto = usePiloto((s) => s.registrar)
   const instantaneo = !animacionesConfig || movimientoReducido
   const temporizador = useRef<number | undefined>(undefined)
 
@@ -79,14 +81,29 @@ export function useMision(expediente: Expediente) {
     if (!reproduccion || reproduciendo || yaNotificado.current === reproduccion) return
     yaNotificado.current = reproduccion
     if (reproduccion.origen === 'prueba') {
+      // DAAF-01 (Decisión A): la hipótesis elegida debe ser la causa para que el caso resuelva.
+      const hipotesisEsCausa =
+        expediente.hipotesis.find((h) => h.id === mision.hipotesisId)?.esCausa ?? false
       despachar({
         tipo: 'PROBADO',
         desenlace: reproduccion.desenlace,
+        hipotesisEsCausa,
         hora: new Date().toISOString(),
       })
-      if (reproduccion.desenlace === 'correcto') marcarResuelto(expediente.id)
+      if (reproduccion.desenlace === 'correcto' && hipotesisEsCausa) marcarResuelto(expediente.id)
     }
-  }, [reproduccion, reproduciendo, expediente.id, marcarResuelto])
+  }, [reproduccion, reproduciendo, expediente, mision.hipotesisId, marcarResuelto])
+
+  // HU18: en modo piloto, cada intento nuevo se guarda en el registro descargable.
+  const intentosRegistrados = useRef(0)
+  useEffect(() => {
+    if (!esPilotoActivo()) return
+    for (let i = intentosRegistrados.current; i < mision.intentos.length; i++) {
+      const intento = mision.intentos[i]
+      if (intento) registrarPiloto({ caso: expediente.id, ...intento })
+    }
+    intentosRegistrados.current = mision.intentos.length
+  }, [mision.intentos, expediente.id, registrarPiloto])
 
   const probar = useCallback(() => {
     if (mision.opcionId) iniciar('prueba', mision.opcionId)

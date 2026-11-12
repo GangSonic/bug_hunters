@@ -1,0 +1,43 @@
+.recuperacion {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sprite {
+  max-height: 40px;
+  max-width: 48px;
+  flex: 0 0 auto;
+}
+.mensaje {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 140px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+/* Animación breve (CA08.1): el bug pasa de apagado a recuperado. */
+.anima {
+  animation: recuperar 1.1s ease-out both;
+}
+@keyframes recuperar {
+  from {
+    transform: scale(0.9);
+    filter: grayscale(1) brightness(0.9);
+  }
+  to {
+    transform: scale(1);
+    filter: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anima {
+    animation: none;
+  }
+}

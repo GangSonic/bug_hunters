@@ -21,9 +21,6 @@
   flex-direction: column;
   gap: 8px;
 }
-.locked {
-  opacity: 0.8;
-}
 .dexTop {
   display: flex;
   align-items: center;
@@ -34,6 +31,7 @@
   height: 50px;
   object-fit: contain;
 }
+/* Ficha por resolver: solo la imagen se atenúa; el texto conserva su contraste. */
 .locked .dexTop img {
   filter: grayscale(1) brightness(0.7);
   opacity: 0.5;
