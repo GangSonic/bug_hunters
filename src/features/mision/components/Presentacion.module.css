@@ -24,7 +24,7 @@
   font-size: 0.9rem;
   font-weight: 700;
   /* Morado que se adapta al tema: más oscuro en claro, más claro en oscuro. */
-  color: color-mix(in srgb, var(--purple) 55%, var(--ink));
+  color: color-mix(in srgb, var(--purple-texto) 55%, var(--ink));
   margin: 4px 0 0;
 }
 .presTitle {
@@ -98,7 +98,7 @@
 .presChip svg {
   width: 14px;
   height: 14px;
-  color: var(--purple);
+  color: var(--purple-texto);
 }
 .comenzar {
   max-width: 260px;

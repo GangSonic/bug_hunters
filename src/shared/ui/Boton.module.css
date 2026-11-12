@@ -37,7 +37,7 @@
 .primario {
   background: var(--cta);
   border-color: var(--cta);
-  color: #fff;
+  color: var(--cta-texto);
 }
 .primario:hover {
   background: var(--cta-deep);

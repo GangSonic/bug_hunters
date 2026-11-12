@@ -15,6 +15,7 @@
   --line: #e7e0d4;
   --line-2: #d8d0e8;
   --purple: #7c6bd6;
+  --purple-texto: var(--purple);
   --purple-deep: #3b2f7a;
   --purple-bg: #ede9fb;
   --teal: #2ba58a;
@@ -24,6 +25,7 @@
   --blue-bg: #e4edf8;
   --cta: #49b37e;
   --cta-deep: #2e7e55;
+  --cta-texto: #ffffff;
   --cafe: #c0894e;
   --amber: #b9791a;
   --amber-bg: #fbeeda;
