@@ -75,3 +75,10 @@
   flex: 1;
   min-width: 130px;
 }
+.guardado {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}

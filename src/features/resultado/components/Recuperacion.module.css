@@ -1,0 +1,71 @@
+.recuperacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+}
+.escena {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+}
+.halo {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--ok-bg);
+  border: 2px solid var(--ok);
+}
+.sprite {
+  position: relative;
+  z-index: 1;
+  max-width: 76px;
+  max-height: 76px;
+}
+.mensaje {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+/* Animación breve (CA08.1): el bug pasa de apagado a recuperado. */
+.anima .sprite {
+  animation: recuperar 1.1s ease-out both;
+}
+.anima .halo {
+  animation: halo 1.1s ease-out both;
+}
+@keyframes recuperar {
+  from {
+    transform: scale(0.9);
+    filter: grayscale(1) brightness(0.9);
+  }
+  to {
+    transform: scale(1);
+    filter: none;
+  }
+}
+@keyframes halo {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anima .sprite,
+  .anima .halo {
+    animation: none;
+  }
+}
