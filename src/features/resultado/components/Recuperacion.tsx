@@ -8,18 +8,19 @@ type Props = {
 }
 
 /**
- * Recuperación (E6, CA08.1): animación breve cuando el caso se resuelve.
- * Con movimiento reducido o animaciones apagadas se ve solo el estado final.
+ * Recuperación (E6, CA08.1): animación breve cuando el caso se resuelve, en una sola fila
+ * para no agrandar P5. Con movimiento reducido o animaciones apagadas se ve solo el estado final.
  */
 export function Recuperacion({ caso, continuar }: Props) {
   const reducido = useMovimientoReducido()
 
   return (
     <div className={estilos.recuperacion}>
-      <div className={`${estilos.escena} ${reducido ? '' : estilos.anima}`}>
-        <span className={estilos.halo} aria-hidden="true" />
-        <img className={estilos.sprite} src={rutaPublica(caso.sprite)} alt="" />
-      </div>
+      <img
+        className={`${estilos.sprite} ${reducido ? '' : estilos.anima}`}
+        src={rutaPublica(caso.sprite)}
+        alt=""
+      />
       <p className={estilos.mensaje} role="status">
         <Icono nombre="check" tamano={14} />
         {caso.criatura} se recuperó

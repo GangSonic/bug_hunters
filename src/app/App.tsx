@@ -1,17 +1,18 @@
 import { useState } from 'react'
+import { Ayuda, Tutorial } from '@/features/ayuda'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
 import { PantallaMision, Presentacion, type SalidaMision } from '@/features/mision'
 import { BarraPiloto, esPilotoActivo } from '@/features/piloto'
-import { Resultado } from '@/features/resultado'
+import { Recuperacion, Resultado } from '@/features/resultado'
 import { Seleccion } from '@/features/seleccion'
 import { Aviso } from '@/shared'
 import { Confirmacion } from './capas/Confirmacion'
 import { Pausa } from './capas/Pausa'
 import { useNavegacion } from './navegacion/navegacionStore'
 import estilos from './App.module.css'
-
+import { AvisoProgresoDescartado } from '@/features/progreso'
 /** Alterna entre claro y oscuro según lo que se ve ahora, como el botón «Tema» original. */
 function useAlternarTema() {
   const tema = useConfiguracion((s) => s.tema)
@@ -95,6 +96,9 @@ export function App() {
                   setEdicionSinProbar(salida.edicionSinProbar)
                   abrirCapa('O1')
                 }}
+                onAyuda={() => abrirCapa('O2')}
+                renderTutorial={(contexto) => <Tutorial {...contexto} />}
+                renderRecuperacion={(contexto) => <Recuperacion {...contexto} />}
               />
             )}
             {pantalla === 'P6' && (
@@ -111,10 +115,11 @@ export function App() {
       </main>
 
       {capa === 'O1' && <Pausa onReanudar={cerrarCapa} onSalir={salirDesdePausa} />}
+      {capa === 'O2' && <Ayuda onCerrar={cerrarCapa} />}
       {capa === 'O4' && <Confirmacion onSalir={() => irA('P3')} onCancelar={cerrarCapa} />}
 
       {piloto && <BarraPiloto />}
-
+      <AvisoProgresoDescartado />
       <Aviso />
     </div>
   )
