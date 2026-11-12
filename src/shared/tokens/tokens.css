@@ -1,6 +1,11 @@
 /*
  * Tokens de diseño: copiados de la primera versión (bughunters.html).
  * Agregado después: --blue y --blue-bg, el azul de Nullito (la primera versión no lo tenía).
+ *
+ * Contraste (RNF02, WCAG 2.2 AA: 4.5:1 en texto): los colores que se usan como texto tienen un
+ * valor para cada tema, porque un solo valor no puede cumplir sobre fondo claro y oscuro a la vez.
+ * --purple se usa como relleno (con texto blanco); como texto se usa --purple-texto.
+ * --cta se usa como relleno de los botones primarios, con texto --cta-texto.
  */
 :root {
   --bg: #f4efe4;
@@ -64,6 +69,13 @@
     --err-bg: #3a1e1b;
     --ok-bg: #12352b;
     --idle-bg: #2a2640;
+    --purple-texto: #9f93e1;
+    --purple-deep: #c3bde6;
+    --teal-deep: #57d6b9;
+    --amber: #d0881d;
+    --err: #dc6c61;
+    --ok: #20ac7f;
+    --idle: #9f99b7;
     color-scheme: dark;
   }
 }
@@ -87,6 +99,13 @@
   --err-bg: #3a1e1b;
   --ok-bg: #12352b;
   --idle-bg: #2a2640;
+  --purple-texto: #9f93e1;
+  --purple-deep: #c3bde6;
+  --teal-deep: #57d6b9;
+  --amber: #d0881d;
+  --err: #dc6c61;
+  --ok: #20ac7f;
+  --idle: #9f99b7;
   color-scheme: dark;
 }
 
