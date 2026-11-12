@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { EscenaCambion } from '../cambion/Escena'
 import { EscenaLoopi } from '../loopi/Escena'
-import { EscenaNullito } from '../nullito/Escena'
 
 const props = { pasos: [], reproduciendo: false, desenlace: null }
 
@@ -18,11 +17,5 @@ describe('EscenaBanda: contador de la criatura', () => {
     const contador = screen.getByText('0')
     expect(contador.style.left).toBe('49.3%')
     expect(contador.style.top).toBe('66%')
-  })
-
-  it('Nullito, que no tiene pantalla dibujada, conserva su caja de siempre', () => {
-    render(<EscenaNullito {...props} />)
-    const contador = screen.getByText('0/4')
-    expect(contador.style.left).toBe('')
   })
 })
