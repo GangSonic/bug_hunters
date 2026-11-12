@@ -52,6 +52,11 @@ export function Seleccion({ onInvestigar, onBugDex, onInicio }: Props) {
                       </div>
                       <h3 className={estilos.cname}>{caso.criatura}</h3>
                       <p className={estilos.cdesc}>{caso.problema}</p>
+                      {/* CA03.2: el estado se dice con icono y texto, no solo con color. */}
+                      <p className={`${estilos.estado} ${hecho ? estilos.estadoHecho : ''}`}>
+                        {hecho && <Icono nombre="check" tamano={12} />}
+                        {hecho ? 'Completado' : 'Disponible'}
+                      </p>
                       <button
                         type="button"
                         className={estilos.inv}
@@ -60,11 +65,6 @@ export function Seleccion({ onInvestigar, onBugDex, onInicio }: Props) {
                       >
                         Investigar
                       </button>
-                      {hecho && (
-                        <div className={estilos.doneTag} role="img" aria-label="Completado">
-                          <Icono nombre="check" />
-                        </div>
-                      )}
                     </article>
                   )
                 })}
