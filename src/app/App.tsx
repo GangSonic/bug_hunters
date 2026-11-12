@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Ayuda, Tutorial } from '@/features/ayuda'
+import { Ayuda, Tutorial, TutorialAnimado } from '@/features/ayuda'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
@@ -64,13 +64,19 @@ export function App() {
       </div>
 
       <main>
-        {/* O3 se muestra en lugar de la pantalla, como en la primera versión. */}
+        {/* O3 y O5 se muestran en lugar de la pantalla, como en la primera versión. */}
         {capa === 'O3' ? (
           <Configuracion onCerrar={cerrarCapa} />
+        ) : capa === 'O5' ? (
+          <TutorialAnimado onCerrar={cerrarCapa} onIrACasos={() => irA('P3')} />
         ) : (
           <>
             {pantalla === 'P1' && (
-              <Inicio onJugar={() => irA('P3')} onConfiguracion={() => abrirCapa('O3')} />
+              <Inicio
+                onJugar={() => irA('P3')}
+                onTutorial={() => abrirCapa('O5')}
+                onConfiguracion={() => abrirCapa('O3')}
+              />
             )}
             {pantalla === 'P3' && (
               <Seleccion

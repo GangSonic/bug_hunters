@@ -30,3 +30,46 @@ export const ZONA_DE_ESTADO: Record<string, ZonaTutorial> = {
   E3: 'correccion',
   E4: 'probar',
 }
+
+/** Las 6 escenas de la animación del Inicio: Loopi se presenta y resuelve el caso de Nullito. */
+export const ESCENAS_ANIMACION = [
+  {
+    id: 'presentacion',
+    titulo: 'Conoce a Loopi',
+    texto: '¡Hola, Bug Hunter! Soy Loopi. Cada error es un misterio y vamos a resolverlos juntos.',
+  },
+  {
+    id: 'caso',
+    titulo: 'El caso',
+    texto:
+      'Este es Nullito. Debe atender los 4 pedidos de la cafetería sin que la cocina se detenga.',
+  },
+  {
+    id: 'observa',
+    titulo: 'Observa',
+    texto:
+      'Observa: al llegar al pedido 3, que no existe, Nullito se atasca y la cocina se detiene. Solo se atienden 2 de 4.',
+  },
+  {
+    id: 'investiga',
+    titulo: 'Investiga',
+    texto: 'Investiga y elige la causa: «No se revisa si el pedido existe antes de prepararlo».',
+  },
+  {
+    id: 'corrige',
+    titulo: 'Corrige y prueba',
+    texto:
+      'Elige la corrección «si existe: preparar pedido · si no: avisar y seguir» y pulsa Probar.',
+  },
+  {
+    id: 'aprende',
+    titulo: 'Aprende',
+    texto:
+      '¡Funciona! Los 4 pedidos quedan atendidos. Aprendiste qué es un valor ausente (nulo) y guardas la ficha en tu BugDex.',
+  },
+] as const
+
+export type EscenaId = (typeof ESCENAS_ANIMACION)[number]['id']
+
+/** Lo que dura cada escena cuando la animación se reproduce sola. */
+export const DURACION_ESCENA_MS = 7000
