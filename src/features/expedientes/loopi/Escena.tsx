@@ -10,6 +10,7 @@ export function EscenaLoopi(props: PropsEscena) {
       etiquetaDestino="ENTREGA"
       elementos={['1', '2', '3', '4']}
       contadorPecho={(c) => `${c.entregados ?? 0}/4`}
+      pantalla={{ izquierda: 83.2, arriba: 60.3 }}
       describir={{ ok: 'entregado' }}
     />
   )

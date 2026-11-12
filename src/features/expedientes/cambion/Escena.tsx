@@ -10,6 +10,7 @@ export function EscenaCambion(props: PropsEscena) {
       etiquetaDestino="ALMACÉN"
       elementos={['□', '□', '□', '□']}
       contadorPecho={(c) => String(c.total ?? 0)}
+      pantalla={{ izquierda: 49.3, arriba: 66 }}
       describir={{ ok: 'caja recibida' }}
     />
   )

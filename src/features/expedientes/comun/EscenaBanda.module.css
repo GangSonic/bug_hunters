@@ -105,6 +105,18 @@
   font-variant-numeric: tabular-nums;
   z-index: 3;
 }
+.contadorPantalla {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.6rem;
+  color: #7cf0c0;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  z-index: 3;
+}
 .pkgs {
   position: absolute;
   left: 8px;
