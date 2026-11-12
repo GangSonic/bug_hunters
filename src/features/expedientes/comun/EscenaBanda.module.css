@@ -89,22 +89,6 @@
     animation: none !important;
   }
 }
-.contador {
-  position: absolute;
-  left: 60%;
-  top: 54%;
-  background: #0d2a22;
-  border: 2px solid #0f6e56;
-  border-radius: 6px;
-  padding: 1px 6px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.72rem;
-  color: #7cf0c0;
-  line-height: 1.3;
-  font-variant-numeric: tabular-nums;
-  z-index: 3;
-}
 .contadorPantalla {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -151,7 +135,7 @@
   border-color: #8a5e2e;
   color: #fff;
 }
-/* Efectos que la primera versión no tenía (Confusín y Nullito los necesitan). */
+/* Efectos que la primera versión no tenía. */
 .mal,
 .fallo {
   background: var(--err-bg);
