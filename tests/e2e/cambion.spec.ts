@@ -68,4 +68,7 @@ test('Cambión: el estado del caso se lee con texto en la selección (CA03.2)', 
   // Sin progreso, los 4 casos están disponibles y lo dicen con texto.
   await expect(page.getByText('Disponible')).toHaveCount(4)
   await expect(page.getByText('Completado')).toHaveCount(0)
+
+  // El estado tiene su estilo propio (0.7rem); sin él el texto se vería del tamaño del cuerpo.
+  await expect(page.getByText('Disponible').first()).toHaveCSS('font-size', '11.2px')
 })
