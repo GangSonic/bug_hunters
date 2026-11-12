@@ -40,7 +40,7 @@ export function Ayuda({ onCerrar }: { onCerrar: () => void }) {
   }
 
   if (verTutorial) {
-     const actual = PASOS_TUTORIAL[paso] ?? PASOS_TUTORIAL[0]
+    const actual = PASOS_TUTORIAL[paso] ?? PASOS_TUTORIAL[0]
     const ultimo = paso === PASOS_TUTORIAL.length - 1
     return (
       <Capa titulo="Tutorial" onCerrar={onCerrar}>

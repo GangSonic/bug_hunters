@@ -31,7 +31,7 @@ export function Tutorial({
   // Se fija al montar: al marcarlo como visto, el tutorial de esta misión no se encoge a mitad.
   const [completo] = useState(primeraVez)
   const numero = PASO_DE_ESTADO[estado] ?? 1
-   const paso = PASOS_TUTORIAL[numero - 1] ?? PASOS_TUTORIAL[0]
+  const paso = PASOS_TUTORIAL[numero - 1] ?? PASOS_TUTORIAL[0]
 
   useEffect(() => {
     if (completo && estado === 'E4') marcarVisto()
