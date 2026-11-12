@@ -16,10 +16,10 @@
   --stage-2: #e3def2;
   --stage-line: #cfc7ea;
   --ink: #2e2650;
-  --ink-2: #6e6690;
+  --ink-2: #655d84;
   --line: #e7e0d4;
   --line-2: #d8d0e8;
-  --purple: #7c6bd6;
+  --purple: #624dce;
   --purple-texto: var(--purple);
   --purple-deep: #3b2f7a;
   --purple-bg: #ede9fb;
@@ -28,17 +28,17 @@
   --teal-bg: #dff3ec;
   --blue: #5b84b1;
   --blue-bg: #e4edf8;
-  --cta: #49b37e;
-  --cta-deep: #2e7e55;
+  --cta: #35835c;
+  --cta-deep: #2b6a4a;
   --cta-texto: #ffffff;
   --cafe: #c0894e;
-  --amber: #b9791a;
+  --amber: #946115;
   --amber-bg: #fbeeda;
   --err: #c0392b;
   --err-bg: #fbe9e7;
-  --ok: #1d9e75;
+  --ok: #16795a;
   --ok-bg: #dff3ec;
-  --idle: #6e6690;
+  --idle: #655d84;
   --idle-bg: #ece8f4;
 
   --font-display: 'Baloo 2', system-ui, sans-serif;
