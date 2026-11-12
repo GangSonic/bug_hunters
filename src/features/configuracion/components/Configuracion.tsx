@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useCantidadResueltos, useProgreso } from '@/features/progreso'
-import { Boton, Marco, MensajeCentrado, mostrarAviso, useTecla } from '@/shared'
+import { Boton, flechasEnGrupo, Marco, MensajeCentrado, mostrarAviso, useTecla } from '@/shared'
 import { useConfiguracion, type Tema } from '../store/configuracionStore'
 import estilos from './Configuracion.module.css'
 
@@ -70,7 +70,12 @@ export function Configuracion({ onCerrar }: { onCerrar: () => void }) {
             </div>
             <div className={estilos.cfgD}>Apariencia del juego</div>
           </div>
-          <div className={estilos.seg} role="group" aria-labelledby="cfg-tema">
+          <div
+            className={estilos.seg}
+            role="group"
+            aria-labelledby="cfg-tema"
+            onKeyDown={flechasEnGrupo}
+          >
             {TEMAS.map((t) => (
               <button
                 key={t.id}

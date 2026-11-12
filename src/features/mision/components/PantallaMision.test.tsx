@@ -208,3 +208,21 @@ describe('PantallaMision: concepto solo en P6 y la BugDex (decisión D, RNF12)',
     expect(screen.queryByText(/Concepto/)).toBeNull()
   })
 })
+
+describe('PantallaMision: flechas entre las opciones de la regla (RNF02)', () => {
+  it('las flechas mueven el foco entre las condiciones sin elegir ninguna', async () => {
+    const { usuario } = montar()
+    await usuario.click(screen.getByRole('button', { name: 'Siguiente' }))
+    const grupo = screen.getByRole('group', { name: /¿Con qué condición debe repetirse\?/ })
+    const opciones = within(grupo).getAllByRole('button')
+    expect(opciones.length).toBeGreaterThan(1)
+
+    opciones[0]?.focus()
+    await usuario.keyboard('{ArrowRight}')
+    expect(opciones[1]).toHaveFocus()
+    expect(opciones[1]).toHaveAttribute('aria-pressed', 'false')
+
+    await usuario.keyboard('{Enter}')
+    expect(opciones[1]).toHaveAttribute('aria-pressed', 'true')
+  })
+})
