@@ -16,6 +16,18 @@ const TRAZOS = {
       <path d="M12 10v5M12 17.5v.3" />
     </>
   ),
+  musica: (
+    <>
+      <path d="M4 9v6h4l5 4V5L8 9z" />
+      <path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11" />
+    </>
+  ),
+  silencio: (
+    <>
+      <path d="M4 9v6h4l5 4V5L8 9z" />
+      <path d="M17 9l5 6M22 9l-5 6" />
+    </>
+  ),
   campana: (
     <>
       <path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7" />
@@ -47,6 +59,12 @@ const TRAZOS = {
     <>
       <circle cx="11" cy="11" r="7" />
       <path d="M21 21l-4-4" />
+    </>
+  ),
+  video: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="3" />
+      <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none" />
     </>
   ),
   ojo: (

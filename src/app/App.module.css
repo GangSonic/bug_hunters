@@ -17,7 +17,14 @@
   font-size: 0.9rem;
   color: var(--purple-texto);
 }
+.acciones {
+  display: flex;
+  gap: 6px;
+}
 .botonTema {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;

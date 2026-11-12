@@ -1,0 +1,7 @@
+/* Apagada: icono de altavoz tachado y texto tachado, para no depender solo del color. */
+.apagada span {
+  text-decoration: line-through;
+}
+.boton {
+  white-space: nowrap;
+}

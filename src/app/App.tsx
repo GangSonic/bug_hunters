@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Ayuda, Tutorial } from '@/features/ayuda'
+import { BotonMusica, useMusica } from '@/features/audio'
+import { Ayuda, Tutorial, TutorialAnimado } from '@/features/ayuda'
 import { BugDex } from '@/features/bugdex'
 import { Configuracion, useAplicarConfiguracion, useConfiguracion } from '@/features/configuracion'
 import { Inicio } from '@/features/inicio'
@@ -32,6 +33,7 @@ export function App() {
   useAplicarConfiguracion()
   const alternarTema = useAlternarTema()
   const { pantalla, casoId, capa, irA, abrirCapa, cerrarCapa } = useNavegacion()
+  useMusica(pantalla)
   // HU18: la barra del piloto solo aparece con ?piloto=1 en la URL.
   const [piloto] = useState(esPilotoActivo)
   // HU15: recuerda si la misión tiene una corrección sin probar, para decidir si salir
@@ -53,24 +55,33 @@ export function App() {
     <div className={estilos.wrap}>
       <div className={estilos.topbar}>
         <span className={estilos.marca}>Bug Hunters · Laboratorio de Bugs</span>
-        <button
-          type="button"
-          className={estilos.botonTema}
-          onClick={alternarTema}
-          aria-label="Cambiar tema"
-        >
-          Tema
-        </button>
+        <div className={estilos.acciones}>
+          <BotonMusica className={estilos.botonTema} />
+          <button
+            type="button"
+            className={estilos.botonTema}
+            onClick={alternarTema}
+            aria-label="Cambiar tema"
+          >
+            Tema
+          </button>
+        </div>
       </div>
 
       <main>
-        {/* O3 se muestra en lugar de la pantalla, como en la primera versión. */}
+        {/* O3 y O5 se muestran en lugar de la pantalla, como en la primera versión. */}
         {capa === 'O3' ? (
           <Configuracion onCerrar={cerrarCapa} />
+        ) : capa === 'O5' ? (
+          <TutorialAnimado onCerrar={cerrarCapa} onIrACasos={() => irA('P3')} />
         ) : (
           <>
             {pantalla === 'P1' && (
-              <Inicio onJugar={() => irA('P3')} onConfiguracion={() => abrirCapa('O3')} />
+              <Inicio
+                onJugar={() => irA('P3')}
+                onTutorial={() => abrirCapa('O5')}
+                onConfiguracion={() => abrirCapa('O3')}
+              />
             )}
             {pantalla === 'P3' && (
               <Seleccion
