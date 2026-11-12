@@ -61,3 +61,30 @@ test('HU15: sin edición pendiente, Volver sale directo sin confirmación', asyn
   await expect(page.getByRole('dialog', { name: '¿Salir sin probar?' })).toBeHidden()
   await expect(page.getByRole('button', { name: 'Investigar el caso de Loopi' })).toBeVisible()
 })
+
+test('Esc cierra la Ayuda sin abrir además la pausa', async ({ page }) => {
+  await abrirSinAnimaciones(page)
+  await irALoopi(page)
+
+  await page.getByRole('button', { name: /Ayuda/ }).click()
+  await expect(page.getByRole('dialog', { name: 'Ayuda' })).toBeVisible()
+
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog', { name: 'Ayuda' })).toBeHidden()
+  await expect(page.getByRole('dialog', { name: 'Misión en pausa' })).toBeHidden()
+})
+
+test('Esc en la confirmación equivale a Seguir en la misión y no abre la pausa', async ({
+  page,
+}) => {
+  await abrirSinAnimaciones(page)
+  await irALoopi(page)
+  await page.getByRole('button', { name: 'Hay paquetes pendientes' }).click()
+  await page.getByRole('button', { name: 'Volver' }).click()
+  await expect(page.getByRole('dialog', { name: '¿Salir sin probar?' })).toBeVisible()
+
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog', { name: '¿Salir sin probar?' })).toBeHidden()
+  await expect(page.getByRole('dialog', { name: 'Misión en pausa' })).toBeHidden()
+  await expect(page.getByRole('button', { name: 'Probar' })).toBeVisible()
+})

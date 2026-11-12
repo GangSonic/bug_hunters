@@ -93,6 +93,8 @@ export function App() {
                 onResuelto={() => irA('P6')}
                 onVolver={salirDeMision}
                 onPausa={(salida) => {
+                  // Con una capa abierta, Esc es de esa capa: no debe abrir además la pausa.
+                  if (capa !== null) return
                   setEdicionSinProbar(salida.edicionSinProbar)
                   abrirCapa('O1')
                 }}
